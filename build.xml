@@ -23,12 +23,17 @@
 
 	<target name="compile" depends="init" description="compile the source ">
 		<mkdir dir="${build}" />
-		<javac srcdir="src" destdir="${build}">
+		<javac srcdir="${src}" destdir="${build}">
 			<include name="**/*.java" />
 			<classpath>
 				<pathelement path="lib/selenium-server-standalone-2.21.0.jar" />
 			</classpath>
 		</javac>
+		<copy todir="${build}">
+			<fileset dir="${src}">
+				<include name="**/*.csv" />
+			</fileset>
+		</copy>
 	</target>
 
 
@@ -49,6 +54,7 @@
 			</manifest>
 			<fileset dir="${build}">
 				<include name="**/*.class" />
+				<include name="**/*.csv" />
 			</fileset>
 		</jar>
 

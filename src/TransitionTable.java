@@ -19,6 +19,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.lang.NumberFormatException;
 import java.util.StringTokenizer;
 import java.util.NoSuchElementException;
@@ -284,9 +285,10 @@ public class TransitionTable
     // Try to open the file
     try
     {
-      reader = new BufferedReader(new FileReader(filename));
+      //reader = new BufferedReader(new FileReader(filename));
+      reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(filename)));
     }
-    catch (FileNotFoundException f)
+    catch (Exception f)
     {
       System.err.println("File "+filename+" not found.");
       return false;

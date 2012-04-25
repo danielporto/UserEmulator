@@ -1,8 +1,3 @@
-//import org.openqa.selenium.By;
-//import org.openqa.selenium.WebDriver;
-//import org.openqa.selenium.WebElement;
-//import org.openqa.selenium.htmlunit.HtmlUnitDriver;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.GregorianCalendar;
@@ -16,7 +11,7 @@ public class QuoddyUserEmulator {
 	public static final int warmUpTime = 6000;
 	public static final int simulationTime = 60000;
 	public static final int tearDownTime = 6000;
-	public static final String transitionTable = "/home/dcfp/devel/QuoddyUserEmulator/default_transitions.csv";
+	public static final String transitionTable = "default_transitions.csv";//"/home/dcfp/devel/QuoddyUserEmulator/default_transitions.csv";
 	public static final int maxTransitionsPerSession = 1000;
 	public static long endOfSession = 0;
 	public static final boolean useThinkTime=false; 
