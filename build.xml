@@ -1,0 +1,76 @@
+<project name="quoddyemulator" default="dist" basedir=".">
+	<description>
+        simple example build file
+    </description>
+	<!-- set global properties for this build -->
+	<property name="outputDir" value="/var/tmp/${user.name}/output/txmud" />
+	<property name="build" location="${outputDir}/build" />
+	<property name="dist" location="${outputDir}/dist" />
+	<property name="src" location="src" />
+
+	<path id="classpath">
+		<fileset dir="lib/">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+
+	<target name="init">
+		<!-- Create the time stamp -->
+		<tstamp />
+		<!-- Create the build directory structure used by compile -->
+		<mkdir dir="${build}" />
+	</target>
+
+	<target name="compile" depends="init" description="compile the source ">
+		<mkdir dir="${build}" />
+		<javac srcdir="src" destdir="${build}">
+			<include name="**/*.java" />
+			<classpath>
+				<pathelement path="lib/selenium-server-standalone-2.21.0.jar" />
+			</classpath>
+		</javac>
+	</target>
+
+
+	<property name="one-jar.ant.jar" value="lib/one-jar-ant-task-0.97.jar" />
+	<taskdef name="one-jar" classname="com.simontuffs.onejar.ant.OneJarTask" classpath="${one-jar.ant.jar}" onerror="report" />
+
+	<target name="jars" depends="compile" description="generate the main jars">
+		<tstamp>
+			<format property="current.time" pattern="yyyyMMdd_HHmmss" />
+		</tstamp>
+
+		<mkdir dir="${dist}/jars" />
+		<jar jarfile="${dist}/jars/quoddy_emulator_lib.jar">
+			<manifest>
+				<attribute name="Built-By" value="${user.name}" />
+				<attribute name="Build-Date" value="${current.time}" />
+				<attribute name="Main-Class" value="QuoddyUserEmulator" />
+			</manifest>
+			<fileset dir="${build}">
+				<include name="**/*.class" />
+			</fileset>
+		</jar>
+
+	</target>
+
+	<target name="dist" depends="jars" description="generate the distribution">
+		<mkdir dir="${dist}" />
+		<one-jar destfile="${dist}/quoddy_emulator.jar">
+			<main jar="${dist}/jars/quoddy_emulator_lib.jar" />
+			<lib>
+				<fileset dir="lib">
+					<include name="selenium-server-standalone-2.21.0.jar" />
+				</fileset>
+			</lib>
+		</one-jar>
+	</target>
+
+
+	<target name="clean" description="clean up">
+		<!-- Delete the ${build} and ${dist} directory trees -->
+		<delete dir="${build}" />
+		<delete dir="${dist}" />
+	</target>
+</project>
+
