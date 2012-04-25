@@ -116,7 +116,7 @@ public class QuoddyUserEmulator {
 //		testsession.goNextState(8);//doViewPendingFriendRequest(driver);
 //		testsession.goNextState(9);//doConfirmFriend(driver);
 //		testsession.goNextState(10);//doListAllMyFriends(driver);
-////		testsession.goNextState(11);//doFollowUser(driver);
+//		testsession.goNextState(11);//doFollowUser(driver);
 //		testsession.goNextState(12);//doListUsersIFollow(driver);
 //		testsession.goNextState(13);//doListAllMyFollowers(driver);
 //		testsession.goNextState(14);//endOfSession(driver);
