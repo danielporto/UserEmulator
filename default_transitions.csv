@@ -1,0 +1,35 @@
+Quoddy Transition Table	Default transition set													
+														
+To >>> From vvvv  	GoHome	Login	Logout	UpdateStatus	MyUpdates	ListAllUsers	ViewUserProfile	AddToFriend	ConfirmPendingRequest	ListAllFriends	FollowUser	ListUsersIFollow	ListMyFollowers	Transition waiting time
+GoHome	0.10	0.50	0.10	0.10	0.10	0.10	0.10	0.00	0.10	0.10	0.00	0.10	0.10	1000
+Login	0.50	0.00	0.10	0.10	0.10	0.10	0.10	0.00	0.10	0.10	0.00	0.10	0.10	1000
+Logout	0.10	0.50	0.00	0.00	0.00	0.00	0.00	0.00	0.00	0.00	0.00	0.00	0.00	1000
+UpdateStatus	0.80	0.00	0.10	0.10	0.10	0.10	0.10	0.00	0.10	0.10	0.00	0.10	0.10	1000
+MyUpdates	0.10	0.00	0.10	0.00	0.10	0.10	0.00	0.00	0.10	0.10	0.00	0.10	0.10	1000
+ListAllUsers	0.10	0.00	0.10	0.00	0.10	0.10	0.10	0.00	0.10	0.10	0.00	0.10	0.10	1000
+ViewUserProfile	0.10	0.00	0.10	0.00	0.10	0.10	0.00	0.10	0.10	0.10	0.10	0.10	0.10	1000
+AddToFriend	0.10	0.00	0.10	0.00	0.10	0.10	0.00	0.00	0.10	0.10	0.00	0.10	0.10	1000
+ConfirmPendingRequest	0.10	0.00	0.10	0.10	0.10	0.10	0.10	0.00	0.10	0.10	0.00	0.10	0.10	1000
+ListAllFriends	0.10	0.00	0.10	0.00	0.10	0.10	0.10	0.00	0.10	0.10	0.00	0.10	0.10	1000
+FollowUser	0.10	0.00	0.10	0.00	0.10	0.10	0.00	0.00	0.10	0.10	0.00	0.10	0.10	1000
+ListUsersIFollow	0.10	0.00	0.10	0.00	0.10	0.10	0.10	0.00	0.10	0.10	0.00	0.10	0.10	1000
+ListMyFollowers	0.10	0.00	0.10	0.00	0.10	0.10	0.10	0.00	0.10	0.10	0.00	0.10	0.10	1000
+End of Session	0.00	0.00	0.20	0.00	0.00	0.20	0.00	0.00	0.20	0.20	0.20	0.00	0.00	0
+Header probability														
+														
+														
+Probabilities for header														
+HomeProb	0.01			0.00	Value that is automatically computed									
+RegisterProb	0.01			0.00	Value that has to be set manually									
+BrowseProb	0.58			0.00	State where we can potentially go back (value must be set to 0)									
+SellProb	0.05													
+AboutMeProb	0.15													
+EndOfSessionProb	0.20													
+Total	1.00													
+														
+Probabilities for home page														
+RegisterProb	0.07													
+BrowseProb	0.70													
+SellProb	0.08													
+AboutMeProb	0.15													
+Total	1.00													
