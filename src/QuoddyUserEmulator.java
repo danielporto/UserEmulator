@@ -1,24 +1,27 @@
 import java.io.File;
 import java.io.IOException;
 import java.util.GregorianCalendar;
-import java.util.concurrent.TimeUnit;
+
+import javax.xml.stream.events.StartDocument;
 
 public class QuoddyUserEmulator {
 	public static String baseUrl = new String(
 			"http://swsao5001.mpi-sws.org:8080");
 	public static final int numberOfClients = 2;
-	public static final int numberOfStates = 13;
+	public static final int numberOfExistingUsers = 13;
+	public static final int numberOfStates = 14;
 	public static final int warmUpTime = 6000;
 	public static final int simulationTime = 60000;
 	public static final int tearDownTime = 6000;
-	public static final String transitionTable = "default_transitions.csv";//"/home/dcfp/devel/QuoddyUserEmulator/default_transitions.csv";
+	public static final String transitionTable = "default_transitions.csv";
 	public static final int maxTransitionsPerSession = 1000;
 	public static long endOfSession = 0;
 	public static final boolean useThinkTime=false; 
+	public static final boolean DEBUG=true;
 
 	public static void main(String[] args) {
-		//test();
-		run();
+		test();
+		//run();
 	}
 	public static void run() {
 		endOfSession = System.currentTimeMillis() + warmUpTime + simulationTime
@@ -53,7 +56,7 @@ public class QuoddyUserEmulator {
 		
 		//INITIALIZE ALL USERS
 		for (int i = 0; i < numberOfClients; i++) {
-			sessions[i] = new UserSession("UserSession " + i,stats);
+			sessions[i] = new UserSession("UserSession ",i,stats);
 			sessions[i].start();
 		}
 		
@@ -95,24 +98,30 @@ public class QuoddyUserEmulator {
 	 * 
 	 * */
 	public static void test(){
+		long start;
+		
 		Stats stats = new Stats(numberOfStates);
-		UserSession testsession = new UserSession("TestUserSession ",stats);
+		UserSession testsession = new UserSession("TestUserSession ",1,stats);
 		testsession.transition.resetToInitialState();
 		System.out.println("Test interaction 1");
-		testsession .goNextState(0);//goHome(driver);
-		testsession .goNextState(1);//doLogin(driver);
-//		testsession .goNextState(2);//doLogout(driver);
-		testsession .goNextState(3);//doUpdateStatus(driver);
-		testsession .goNextState(4);//doListMyUpdates(driver);
-		testsession .goNextState(5);//doListAllUsers(driver);
-		testsession .goNextState(6);//doViewUsersProfile(driver);
-//		testsession .goNextState(7);//doAddNewFriend(driver);
-//		testsession .goNextState(8);//doConfirmFriend(driver);
-		testsession .goNextState(9);//doListAllMyFriends(driver);
-//		testsession .goNextState(10);//doFollowUser(driver);
-		testsession .goNextState(11);//doListUsersIFollow(driver);
-		testsession .goNextState(12);//doListAllMyFollowers(driver);
-		testsession .goNextState(13);//endOfSession(driver);
+		start = System.currentTimeMillis();
+		testsession.goNextState(0);//goHome(driver);
+//		testsession.goNextState(1);//doLogin(driver);
+//		testsession.goNextState(2);//doLogout(driver);
+//		testsession.goNextState(3);//doUpdateStatus(driver);
+//		testsession.goNextState(4);//doListMyUpdates(driver);
+//		testsession.goNextState(5);//doListAllUsers(driver);
+//		testsession.goNextState(6);//doViewUsersProfile(driver);
+//		testsession.goNextState(7);//doAddNewFriend(driver);
+//		testsession.goNextState(8);//doViewPendingFriendRequest(driver);
+//		testsession.goNextState(9);//doConfirmFriend(driver);
+//		testsession.goNextState(10);//doListAllMyFriends(driver);
+////		testsession.goNextState(11);//doFollowUser(driver);
+//		testsession.goNextState(12);//doListUsersIFollow(driver);
+//		testsession.goNextState(13);//doListAllMyFollowers(driver);
+//		testsession.goNextState(14);//endOfSession(driver);
+		
+		System.out.println("Testing features last for "+(System.currentTimeMillis()-start)+" milliseconds");
 	}
 	public static void createReportDir(String reportDir) {
 		System.out.println("Creating report directory " + reportDir);

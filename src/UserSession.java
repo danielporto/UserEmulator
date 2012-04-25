@@ -77,6 +77,7 @@ public class UserSession extends Thread {
 	private int debugLevel = 0; // 0 = no debug message,
 
 	private WebDriver driver; // webbrowser
+	Transitions state;
 
 	/**
 	 * Creates a new <code>UserSession</code> instance.
@@ -90,8 +91,8 @@ public class UserSession extends Thread {
 	 * @param statistics
 	 *            where to collect statistics
 	 */
-	public UserSession(String threadId, Stats statistics) {
-		super(threadId);
+	public UserSession(String thread_label,int id, Stats statistics) {
+		super(thread_label+id);
 		stats = statistics;
 		debugLevel = 0; // rubis.getMonitoringDebug(); // debugging level: 0 =
 						// no debug
@@ -103,6 +104,7 @@ public class UserSession extends Thread {
 		driver = new HtmlUnitDriver();
 		//driver = new FirefoxDriver();
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+		state = new Transitions("testuser"+id);
 
 		transition = new TransitionTable(QuoddyUserEmulator.numberOfStates,
 				QuoddyUserEmulator.numberOfStates, statistics,
@@ -113,8 +115,6 @@ public class UserSession extends Thread {
 			}
 	}
 
-
-	// ================================================================================================
 	/**
 	 * Internal method that returns the min between last_index and x if x is not
 	 * equal to -1.
@@ -420,20 +420,21 @@ public class UserSession extends Thread {
 
 	public long goNextState(int state){
 	  switch (state){
-	  case 0: return Transitions.goHome(driver);
-	  case 1: return Transitions.doLogin(driver);
-	  case 2: return Transitions.doLogout(driver);
-	  case 3: return Transitions.doUpdateStatus(driver);
-	  case 4: return Transitions.doListMyUpdates(driver);
-	  case 5: return Transitions.doListAllUsers(driver);
-	  case 6: return Transitions.doViewUsersProfile(driver);
-	  case 7: return Transitions.doAddNewFriend(driver);
-	  case 8: return Transitions.doConfirmFriend(driver);
-	  case 9: return Transitions.doListAllMyFriends(driver);
-	  case 10: return Transitions.doFollowUser(driver);
-	  case 11: return Transitions.doListUsersIFollow(driver);
-	  case 12: return Transitions.doListAllMyFollowers(driver);
-	  case 13: return Transitions.endOfSession(driver);
+	  case 0: return this.state.goHome(driver);
+	  case 1: return this.state.doLogin(driver);
+	  case 2: return this.state.doLogout(driver);
+	  case 3: return this.state.doUpdateStatus(driver);
+	  case 4: return this.state.doListMyUpdates(driver);
+	  case 5: return this.state.doListAllUsers(driver);
+	  case 6: return this.state.doViewUsersProfile(driver);
+	  case 7: return this.state.doAddNewFriend(driver);
+	  case 8: return this.state.doViewPendingFriendRequest(driver);
+	  case 9: return this.state.doConfirmFriend(driver);
+	  case 10: return this.state.doListAllMyFriends(driver);
+	  case 11: return this.state.doFollowUser(driver);
+	  case 12: return this.state.doListUsersIFollow(driver);
+	  case 13: return this.state.doListAllMyFollowers(driver);
+	  case 14: return this.state.endOfSession(driver);
 	  }
 	  return System.currentTimeMillis();
  }
@@ -469,37 +470,20 @@ public class UserSession extends Thread {
 				// spend in
 				// server call)
 
-				//lastURL = computeURLFromState(next);
+				try{
 				time = goNextState(next);
-				//lastHTMLReply = callHTTPServer(lastURL);
+				}catch(Exception e){
+					e.printStackTrace();
+					System.out.println("Perhaps we can handle this error by just discarting the interaction and resetting the state");
+					System.exit(0);
+				}
 				stats.updateTime(next, System.currentTimeMillis() - time);
-				//capturar a excessao do gonextstate
-//				if (lastHTMLReply == null) { 
-//					if (debugLevel > 0)
-//						System.out.println("Thread " + this.getName()
-//								+ ": Cannot connect to HTTP server.");
-//					transition.resetToInitialState();
-//					next = transition.getCurrentState();
-////				}
-//
-//				// If an error occured, reset to Home page
-//				else if (lastHTMLReply.indexOf("ERROR") != -1) {
-//					if (debugLevel > 0)
-//						System.out.println("Thread " + this.getName()
-//								+ ": Error returned from access to " + lastURL
-//								+ "<br>");
-//					stats.incrementError(next);
-//					if (debugLevel > 1)
-//						System.out
-//								.println("Thread " + this.getName()
-//										+ ": HTML reply was: " + lastHTMLReply
-//										+ "<br>");
-//					transition.resetToInitialState();
-//					next = transition.getCurrentState();
-//				} else
-					next = transition.nextState();
+				next = transition.nextState();
 				nbOfTransitions--;
 			}
+			
+			
+			
 			if ((transition.isEndOfSession()) || (nbOfTransitions == 0)) {
 				if (debugLevel > 2)
 					System.out.println("Thread " + this.getName()
