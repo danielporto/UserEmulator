@@ -21,8 +21,9 @@
  * Initial developer(s): Emmanuel Cecchet, Julie Marguerite
  * Contributor(s): 
  */
- 
- 
+import java.io.PrintStream;
+import java.text.DecimalFormat;
+
 /**
  * This class provides thread-safe statistics. Each statistic entry is composed as follow:
  * <pre>
@@ -47,8 +48,9 @@ public class Stats
   private long totalTime[];
   private int  nbSessions;   // Number of sessions succesfully ended
   private long sessionsTime; // Sessions total duration
-
-
+  private Histogram [] interaction_response_time;
+  int interaction_response_time_max=60000;
+  int interaction_response_time_binsize=50;
   /**
    * Creates a new <code>Stats</code> instance.
    * The entries are reset to 0.
@@ -63,6 +65,12 @@ public class Stats
     minTime = new long[nbOfStats];
     maxTime = new long[nbOfStats];
     totalTime = new long[nbOfStats];
+    interaction_response_time = new Histogram[nbOfStats];
+    
+    for (int h=0;h<interaction_response_time.length;h++) {
+    	interaction_response_time[h] = new Histogram(interaction_response_time_max/interaction_response_time_binsize, interaction_response_time_binsize);
+	 }
+    
     reset();
   }
 
@@ -81,9 +89,12 @@ public class Stats
       minTime[i] = Long.MAX_VALUE;
       maxTime[i] = 0;
       totalTime[i] = 0;
+      interaction_response_time[i].clear();
     }
     nbSessions = 0;
     sessionsTime = 0;
+    
+    
   }
 
   /**
@@ -153,6 +164,8 @@ public class Stats
       maxTime[index] = time;
     if (time < minTime[index])
       minTime[index] = time;
+    
+    interaction_response_time[index].add((int)time);
   }
 
 
@@ -167,7 +180,10 @@ public class Stats
   {
     return count[index];
   }
-
+  public synchronized int getCountHistogram(int index)
+  {
+    return interaction_response_time[index].samples();
+  }
 
   /**
    * Get current error count of an entry
@@ -219,7 +235,11 @@ public class Stats
   {
     return totalTime[index];
   }
-
+  
+  public synchronized long getTotalTimeHistogram(int index)
+  {
+    return interaction_response_time[index].sum();
+  }
 
   /**
    * Get the total number of entries that are collected
@@ -258,9 +278,11 @@ public class Stats
       if (maxTime[i] < anotherStat.getMaxTime(i))
         maxTime[i] = anotherStat.getMaxTime(i);
       totalTime[i] += anotherStat.getTotalTime(i);
+      interaction_response_time[i].copy(anotherStat.interaction_response_time[i]);
     }
     nbSessions   += anotherStat.nbSessions;
     sessionsTime += anotherStat.sessionsTime;
+    
   }
 
 
@@ -277,10 +299,10 @@ public class Stats
     int counts = 0;
     int errors = 0;
     long time = 0;
-
+    DecimalFormat df = new DecimalFormat("#.##");
     System.out.println("<br><h3>"+title+" statistics</h3><p>");
     System.out.println("<TABLE BORDER=1>");
-    System.out.println("<THEAD><TR><TH>State name<TH>% of total<TH>Count<TH>Errors<TH>Minimum Time<TH>Maximum Time<TH>Average Time<TBODY>");
+    System.out.println("<THEAD><TR><TH>State name<TH>% of total<TH>Count<TH>Errors<TH>Minimum Time<TH>Maximum Time<TH>Average Time<TH># SAMPLES<TH>AVERAGE<TH>STANDARD DEVIATION<TBODY>");
     // Display stat for each state
     for (int i = 0 ; i < getNbOfStats() ; i++)
     {
@@ -293,26 +315,45 @@ public class Stats
     {
       if ((exclude0Stat && count[i] != 0) || (!exclude0Stat))
       {
-        System.out.print("<TR><TD><div align=left>"+TransitionTable.getStateName(i)+"</div><TD><div align=right>");
+        //LINE NAME
+    	System.out.print("<TR><TD><div align=left>"+TransitionTable.getStateName(i)+"</div><TD><div align=right>");
         if ((counts > 0) && (count[i] > 0))
           System.out.print(100*count[i]/counts+" %");
         else
           System.out.print("0 %");
+
+        //COUNT
         System.out.print("</div><TD><div align=right>"+count[i]+"</div><TD><div align=right>");
         if (error[i] > 0)
           System.out.print("<B>"+error[i]+"</B>");
         else
           System.out.print(error[i]);
+        
         System.out.print("</div><TD><div align=right>");
         if (minTime[i] != Long.MAX_VALUE)
           System.out.print(minTime[i]);
         else
           System.out.print("0");
+        
         System.out.print(" ms</div><TD><div align=right>"+maxTime[i]+" ms</div><TD><div align=right>");
         if (count[i] != 0)
           System.out.println(totalTime[i]/count[i]+" ms</div>");
         else
            System.out.println("0 ms</div>");
+        if(interaction_response_time[i].samples()>0){
+        	System.out.print("<TD><div align=right>"+interaction_response_time[i].samples()+"</div></TD>");
+        	System.out.print("<TD><div align=right>"+df.format(interaction_response_time[i].average())+" ms</div></TD>");
+            System.out.print("<TD><div align=right>"+df.format(interaction_response_time[i].standard_deviation())+"</div></TD>");
+        }
+        else{
+        	System.out.print("<TD><div align=right>0</div></TD>");
+        	System.out.print("<TD><div align=right>0ms</div></TD>");
+            System.out.print("<TD><div align=right>0</div></TD>");	
+        }
+
+        
+        
+        
       }
     }
 
@@ -336,6 +377,5 @@ public class Stats
     }
     System.out.println("</TABLE><p>");
   }
-
 
 }
