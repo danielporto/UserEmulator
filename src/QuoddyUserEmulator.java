@@ -11,7 +11,7 @@ import javax.xml.stream.events.StartDocument;
 public class QuoddyUserEmulator {
 	public static String baseUrl = new String(
 			"http://swsao5001.mpi-sws.org:8080");
-	public static final int numberOfClients = 1;
+	public static final int numberOfClients = 10;
 	public static final String userPrefix = "user";
 	public static final String userPassword = "secret";
 	public static final int numberOfExistingUsers = 1000;
@@ -149,6 +149,7 @@ public class QuoddyUserEmulator {
 		testsession.transitiontable.resetToInitialState();
 		System.out.println("Test interaction 1");
 		start = System.currentTimeMillis();
+		try{
 		testsession.goNextState(0);// goHome(driver);
 		// testsession.goNextState(1);//doLogin(driver);
 		// testsession.goNextState(2);//doLogout(driver);
@@ -164,6 +165,9 @@ public class QuoddyUserEmulator {
 		// testsession.goNextState(12);//doListUsersIFollow(driver);
 		// testsession.goNextState(13);//doListAllMyFollowers(driver);
 		// testsession.goNextState(14);//endOfSession(driver);
+		}catch(ItemNotFoundException e){
+			e.printStackTrace();
+		}
 
 		System.out.println("Testing features last for "
 				+ (System.currentTimeMillis() - start) + " milliseconds");

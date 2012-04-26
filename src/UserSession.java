@@ -82,8 +82,8 @@ public class UserSession extends Thread {
 		super(thread_label+id);
 		userId=id; //thread id not exactly the user in the session
 		stats = statistics;
-		//driver = new HtmlUnitDriver();
-		driver = new FirefoxDriver();
+		driver = new HtmlUnitDriver();
+		//driver = new FirefoxDriver();
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		
 		
@@ -119,7 +119,7 @@ public class UserSession extends Thread {
 	}
 
 
-	public long goNextState(int state){
+	public long goNextState(int state) throws ItemNotFoundException{
 	  switch (state){
 	  case Transitions.goHome : return this.state.goHome(driver);
 	  case Transitions.doLogin: return this.state.doLogin(driver);
@@ -157,7 +157,11 @@ public class UserSession extends Thread {
 			System.out.println("Thread " + this.getName()+ ": Starting a new user session for " + username);
 			startSession = System.currentTimeMillis();
 			// Start from Home Page -- this transitions are not count in the evaluation!!!!
-			goNextState(Transitions.goHome);
+			try {
+				goNextState(Transitions.goHome);
+			} catch (ItemNotFoundException e1) {
+				//nothing important to do
+			}
 			transitiontable.resetToInitialState();
 			next = transitiontable.getCurrentState();
 			/*
@@ -167,8 +171,13 @@ public class UserSession extends Thread {
 			while (nbOfTransitions > 0 || !transitiontable.isEndOfSession()) {
 				try{
 				time = goNextState(next); //get the time before the interaction
-				}catch(Exception e){
-					e.printStackTrace();
+				}
+				catch(ItemNotFoundException it){
+					System.out.println(it.toString());
+					break;
+				}
+				catch(Exception e){
+					//e.printStackTrace();
 					System.out.println("Something bad happend reset to initial state");
 					stats.incrementError(next);
 					break;

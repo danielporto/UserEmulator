@@ -128,7 +128,7 @@ public static final int endOfSession=13;
 	 * http://swsao5001.mpi-sws.org:8080/quoddy/user/viewUser?userId=testuser7
 	 * TODO we need to get list of users
 	 */
-	public long doViewUsersProfile(WebDriver driver) {
+	public long doViewUsersProfile(WebDriver driver) throws ItemNotFoundException {
 		long time;
 		List<WebElement> e;
 		boolean linkfound = false;
@@ -149,10 +149,12 @@ public static final int endOfSession=13;
 		if (!linkfound) {
 			System.out
 					.println("User "+user+" There's no user to view details -- attention the home page has temporary users (hope it doesnot affect)");
-			for (WebElement el : e) {
-				System.out.println("User "+user+" Element: " + el.getAttribute("href"));
-			}
-			System.exit(0);
+//			for (WebElement el : e) {
+//				System.out.println("User "+user+" Element: " + el.getAttribute("href"));
+//			}
+			//System.exit(0);
+			throw new ItemNotFoundException();
+			
 		}
 
 		// from followers list
@@ -176,7 +178,7 @@ public static final int endOfSession=13;
 		return time;
 	}
 
-	public long doFollowUser(WebDriver driver) {
+	public long doFollowUser(WebDriver driver) throws ItemNotFoundException {
 		long time;
 		List<WebElement> e;
 		boolean linkfound = false;
@@ -193,11 +195,12 @@ public static final int endOfSession=13;
 			}
 		}
 		if (!linkfound) {
-			System.out.println("User "+user+" Link to follow a friend was not found!!!");
-			for (WebElement el : e) {
-				System.out.println("User "+user+" Element: " + el.getAttribute("href"));
-			}
-			System.exit(0);
+			throw new ItemNotFoundException();
+//			System.out.println("User "+user+" Link to follow a friend was not found!!!");
+//			for (WebElement el : e) {
+//				System.out.println("User "+user+" Element: " + el.getAttribute("href"));
+//			}
+//			System.exit(0);
 		}
 
 		if (QuoddyUserEmulator.DEBUG)
@@ -211,7 +214,7 @@ public static final int endOfSession=13;
 	/*
 	 * review done
 	 */
-	public long doAddNewFriend(WebDriver driver) {
+	public long doAddNewFriend(WebDriver driver) throws ItemNotFoundException {
 		long time;
 		List<WebElement> e;
 		boolean linkfound = false;
@@ -228,11 +231,12 @@ public static final int endOfSession=13;
 			}
 		}
 		if (!linkfound) {
-			System.out.println("User "+user+" Link to add a friend was not found!!!");
-			for (WebElement el : e) {
-				System.out.println("User "+user+" Element: " + el.getAttribute("href"));
-			}
-			System.exit(0);
+			throw new ItemNotFoundException();
+//			System.out.println("User "+user+" Link to add a friend was not found!!!");
+//			for (WebElement el : e) {
+//				System.out.println("User "+user+" Element: " + el.getAttribute("href"));
+//			}
+//			System.exit(0);
 		}
 
 		if (QuoddyUserEmulator.DEBUG)
@@ -252,7 +256,7 @@ public static final int endOfSession=13;
 		return time;
 	}
 
-	public long doConfirmFriend(WebDriver driver) {
+	public long doConfirmFriend(WebDriver driver) throws ItemNotFoundException {
 		long time;
 		List<WebElement> e;
 		boolean linkfound = false;
@@ -271,9 +275,10 @@ public static final int endOfSession=13;
 			}
 		}
 		if (!linkfound) {
-			System.out
-					.println("User "+user+" There was no pending request to confirm!!! going back to home");
-			return goHome(driver);
+			throw new ItemNotFoundException();
+//			System.out
+//					.println("User "+user+" There was no pending request to confirm!!! going back to home");
+//			return goHome(driver);
 		}
 		// go on
 
