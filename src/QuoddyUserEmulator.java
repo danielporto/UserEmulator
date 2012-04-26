@@ -15,13 +15,13 @@ public class QuoddyUserEmulator {
 	public static final String userPrefix = "user";
 	public static final String userPassword = "secret";
 	public static final int numberOfExistingUsers = 1000;
-	public static final int numberOfStates = 14;
+	public static final int numberOfStates = 13;
 	public static final int warmUpTime = 6000;
 	public static final int simulationTime = 60000;
 	public static final int tearDownTime = 6000;
 	public static final String transitionTable = "default_transitions.csv";
-	public static final int maxTransitionsPerSession = 1000;
-	public static long endOfSession = 0;
+	public static final int maxTransitionsPerSession = 20;
+	public static long totalSimulationTime = 0;
 	public static final boolean useThinkTime = false;
 	public static final boolean DEBUG = true;
 
@@ -31,7 +31,7 @@ public class QuoddyUserEmulator {
 	}
 
 	public static void run() {
-		endOfSession = System.currentTimeMillis() + warmUpTime + simulationTime	+ tearDownTime;
+		totalSimulationTime = System.currentTimeMillis() + warmUpTime + simulationTime	+ tearDownTime;
 		GregorianCalendar startDate;
 		GregorianCalendar endDate;
 		GregorianCalendar startWarmUp;
@@ -146,7 +146,7 @@ public class QuoddyUserEmulator {
 
 		Stats stats = new Stats(numberOfStates);
 		UserSession testsession = new UserSession("TestUserSession ", 1, stats);
-		testsession.transition.resetToInitialState();
+		testsession.transitiontable.resetToInitialState();
 		System.out.println("Test interaction 1");
 		start = System.currentTimeMillis();
 		testsession.goNextState(0);// goHome(driver);
