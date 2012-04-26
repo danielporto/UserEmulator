@@ -11,19 +11,18 @@ public class Transitions {
 	
 public static final int goHome=0;
 public static final int doLogin=1;
-public static final int doLogout=2;
-public static final int doUpdateStatus=3;
-public static final int doListMyUpdates=4;
-public static final int doListAllUsers=5;
-public static final int doViewUsersProfile=6;
-public static final int doAddNewFriend=7;
-public static final int doViewPendingFriendRequest=8;
-public static final int doConfirmFriend=9;
-public static final int doListAllMyFriends=10;
-public static final int doFollowUser=11;
-public static final int doListUsersIFollow=12;
-public static final int doListAllMyFollowers=13;
-public static final int endOfSession=14;
+public static final int doUpdateStatus=2;
+public static final int doListMyUpdates=3;
+public static final int doListAllUsers=4;
+public static final int doViewUsersProfile=5;
+public static final int doAddNewFriend=6;
+public static final int doViewPendingFriendRequest=7;
+public static final int doConfirmFriend=8;
+public static final int doListAllMyFriends=9;
+public static final int doFollowUser=10;
+public static final int doListUsersIFollow=11;
+public static final int doListAllMyFollowers=12;
+public static final int endOfSession=13;
 
 	
 	Random number;
@@ -297,6 +296,7 @@ public static final int endOfSession=14;
 	}
 
 	public long endOfSession(WebDriver driver) {
-		return System.currentTimeMillis();
+		return doLogout(driver);
+
 	}
 }

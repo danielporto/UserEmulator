@@ -208,51 +208,56 @@ public class TransitionTable
 
     for (i = 0 ; i < nbRows ; i++)
     {
+    	
       cumul = cumul + transitions[currentState][i];
+      //System.out.println("checking the probability cumul"+cumul+" transition "+transitions[currentState][i]+" step"+step);
       if (step < cumul)
       {
         currentState = i;
         break;
       }
     }
+    
     // Deal with Back to previous state
-    if (currentState == nbRows-2)
-    { 
-      if (previousStates.empty())
-        System.out.println("Error detected: Trying to go back but no previous state is available (currentState:"+currentState+", beforeStep:"+beforeStep);
-      else
-      { // Back adds both stats of back and new state but only sleep "back waiting time"
-        // and return the new state (after back).
-        stats.incrementCount(currentState); // Add back state stat
-        try
-        {
-          if (useTPCWThinkTime)
-            Thread.currentThread().sleep((long)((float)TPCWthinkTime()));
-          else
-            Thread.currentThread().sleep((long)((float)transitionsTime[currentState]));
-        }
-        catch (java.lang.InterruptedException ie)
-        {
-          System.err.println("Thread "+Thread.currentThread().getName()+" has been interrupted.");
-        }
-        Integer previous = (Integer)previousStates.pop();
-        currentState = previous.intValue();
-//        System.out.println("Thread "+Thread.currentThread().getName()+": Going back from "+stateNames[beforeStep]+" to "+stateNames[currentState]+"<br>\n");
-        stats.incrementCount(currentState); // Add new state stat
-        return currentState;
-      }
-    }
-    else
-    { // Add this state to history (previousStates) if needed
-      if (!isEndOfSession())
-      { // If there is no probability to go back from this state, just empty the stack
-        if (transitions[currentState][nbRows-2] == 0)
-          previousStates.removeAllElements();
-        else // else add the previous state to the history just in case we go back !
-          previousStates.push(new Integer(beforeStep));
-//        System.out.println("Thread "+Thread.currentThread().getName()+": "+stateNames[beforeStep]+" -> "+stateNames[currentState]+"<br>\n");
-      }
-    }
+//    if (currentState == nbRows-2)
+//    { 
+//      if (previousStates.empty())
+//        System.out.println("Error detected: Trying to go back but no previous state is available (currentState:"+currentState+", beforeStep:"+beforeStep);
+//      else
+//      { // Back adds both stats of back and new state but only sleep "back waiting time"
+//        // and return the new state (after back).
+//        stats.incrementCount(currentState); // Add back state stat
+//        try
+//        {
+//          if (useTPCWThinkTime)
+//            Thread.currentThread().sleep((long)((float)TPCWthinkTime()));
+//          else
+//            Thread.currentThread().sleep((long)((float)transitionsTime[currentState]));
+//        }
+//        catch (java.lang.InterruptedException ie)
+//        {
+//          System.err.println("Thread "+Thread.currentThread().getName()+" has been interrupted.");
+//        }
+//        Integer previous = (Integer)previousStates.pop();
+//        currentState = previous.intValue();
+////        System.out.println("Thread "+Thread.currentThread().getName()+": Going back from "+stateNames[beforeStep]+" to "+stateNames[currentState]+"<br>\n");
+//        stats.incrementCount(currentState); // Add new state stat
+//        return currentState;
+//      }
+//    }
+//    else
+//    { // Add this state to history (previousStates) if needed
+//      if (!isEndOfSession())
+//      { // If there is no probability to go back from this state, just empty the stack
+//        if (transitions[currentState][nbRows-2] == 0)
+//          previousStates.removeAllElements();
+//        else // else add the previous state to the history just in case we go back !
+//          previousStates.push(new Integer(beforeStep));
+////        System.out.println("Thread "+Thread.currentThread().getName()+": "+stateNames[beforeStep]+" -> "+stateNames[currentState]+"<br>\n");
+//      }
+//    }
+      
+      
     stats.incrementCount(currentState);
     try
     {

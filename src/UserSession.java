@@ -123,7 +123,6 @@ public class UserSession extends Thread {
 	  switch (state){
 	  case Transitions.goHome : return this.state.goHome(driver);
 	  case Transitions.doLogin: return this.state.doLogin(driver);
-	  case Transitions.doLogout: return this.state.doLogout(driver);
 	  case Transitions.doUpdateStatus: return this.state.doUpdateStatus(driver);
 	  case Transitions.doListMyUpdates: return this.state.doListMyUpdates(driver);
 	  case Transitions.doListAllUsers: return this.state.doListAllUsers(driver);
