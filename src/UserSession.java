@@ -75,7 +75,6 @@ public class UserSession extends Thread {
 	private Stats stats; // Statistics to collect
 	// errors, time, ...
 	private int debugLevel = 0; // 0 = no debug message,
-
 	private WebDriver driver; // webbrowser
 	Transitions state;
 
@@ -101,14 +100,17 @@ public class UserSession extends Thread {
 		// messages+HTML pages, 3 =
 		// everything!
 
-		driver = new HtmlUnitDriver();
-		//driver = new FirefoxDriver();
+		//driver = new HtmlUnitDriver();
+		driver = new FirefoxDriver();
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-		state = new Transitions(QuoddyUserEmulator.userPrefix+id);
+		
+		username=QuoddyUserEmulator.userPrefix+id;
+		password=QuoddyUserEmulator.userPassword;
+		
+		state = new Transitions(username);
 
 		transition = new TransitionTable(QuoddyUserEmulator.numberOfStates,
-				QuoddyUserEmulator.numberOfStates, statistics,
-				QuoddyUserEmulator.useThinkTime);
+				QuoddyUserEmulator.numberOfStates, statistics,QuoddyUserEmulator.useThinkTime);
 		if (!transition.ReadExcelTextFile(QuoddyUserEmulator.transitionTable)){
 			System.out.println("Failed to read transition table from xls file");
 			Runtime.getRuntime().exit(1);
@@ -420,21 +422,21 @@ public class UserSession extends Thread {
 
 	public long goNextState(int state){
 	  switch (state){
-	  case 0: return this.state.goHome(driver);
-	  case 1: return this.state.doLogin(driver);
-	  case 2: return this.state.doLogout(driver);
-	  case 3: return this.state.doUpdateStatus(driver);
-	  case 4: return this.state.doListMyUpdates(driver);
-	  case 5: return this.state.doListAllUsers(driver);
-	  case 6: return this.state.doViewUsersProfile(driver);
-	  case 7: return this.state.doAddNewFriend(driver);
-	  case 8: return this.state.doViewPendingFriendRequest(driver);
-	  case 9: return this.state.doConfirmFriend(driver);
-	  case 10: return this.state.doListAllMyFriends(driver);
-	  case 11: return this.state.doFollowUser(driver);
-	  case 12: return this.state.doListUsersIFollow(driver);
-	  case 13: return this.state.doListAllMyFollowers(driver);
-	  case 14: return this.state.endOfSession(driver);
+	  case Transitions.goHome : return this.state.goHome(driver);
+	  case Transitions.doLogin: return this.state.doLogin(driver);
+	  case Transitions.doLogout: return this.state.doLogout(driver);
+	  case Transitions.doUpdateStatus: return this.state.doUpdateStatus(driver);
+	  case Transitions.doListMyUpdates: return this.state.doListMyUpdates(driver);
+	  case Transitions.doListAllUsers: return this.state.doListAllUsers(driver);
+	  case Transitions.doViewUsersProfile: return this.state.doViewUsersProfile(driver);
+	  case Transitions.doAddNewFriend: return this.state.doAddNewFriend(driver);
+	  case Transitions.doViewPendingFriendRequest: return this.state.doViewPendingFriendRequest(driver);
+	  case Transitions.doConfirmFriend: return this.state.doConfirmFriend(driver);
+	  case Transitions.doListAllMyFriends: return this.state.doListAllMyFriends(driver);
+	  case Transitions.doFollowUser: return this.state.doFollowUser(driver);
+	  case Transitions.doListUsersIFollow: return this.state.doListUsersIFollow(driver);
+	  case Transitions.doListAllMyFollowers: return this.state.doListAllMyFollowers(driver);
+	  case Transitions.endOfSession: return this.state.endOfSession(driver);
 	  }
 	  return System.currentTimeMillis();
  }
@@ -472,6 +474,9 @@ public class UserSession extends Thread {
 
 				try{
 				time = goNextState(next);
+				if(next==Transitions.doLogout){
+					System.out.println("Switching from user "+state.user+" to "+);
+				}
 				}catch(Exception e){
 					e.printStackTrace();
 					System.out.println("Perhaps we can handle this error by just discarting the interaction and resetting the state");
@@ -479,6 +484,7 @@ public class UserSession extends Thread {
 				}
 				stats.updateTime(next, System.currentTimeMillis() - time);
 				next = transition.nextState();
+				
 				nbOfTransitions--;
 			}
 			

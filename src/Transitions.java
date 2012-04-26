@@ -1,5 +1,6 @@
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -8,8 +9,27 @@ import org.openqa.selenium.WebElement;
 public class Transitions {
 	String user;
 	
+public static final int goHome=0;
+public static final int doLogin=1;
+public static final int doLogout=2;
+public static final int doUpdateStatus=3;
+public static final int doListMyUpdates=4;
+public static final int doListAllUsers=5;
+public static final int doViewUsersProfile=6;
+public static final int doAddNewFriend=7;
+public static final int doViewPendingFriendRequest=8;
+public static final int doConfirmFriend=9;
+public static final int doListAllMyFriends=10;
+public static final int doFollowUser=11;
+public static final int doListUsersIFollow=12;
+public static final int doListAllMyFollowers=13;
+public static final int endOfSession=14;
+
+	
+	Random number;
+	
 	public Transitions(String user){
-		this.user=user;
+		this.user=user;//only used to avoid get transitions with same user
 	}
 	
 	public long doLogin(WebDriver driver) {
@@ -17,9 +37,9 @@ public class Transitions {
 		driver.navigate()
 				.to(QuoddyUserEmulator.baseUrl + "/quoddy/login/index");
 		driver.findElement(By.id("username")).clear();
-		driver.findElement(By.id("username")).sendKeys("testuser1");
+		driver.findElement(By.id("username")).sendKeys(user);
 		driver.findElement(By.id("password")).clear();
-		driver.findElement(By.id("password")).sendKeys("secret");
+		driver.findElement(By.id("password")).sendKeys(QuoddyUserEmulator.userPassword);
 		// non blocking
 		driver.findElement(By.id("login")).click();
 		// blocking

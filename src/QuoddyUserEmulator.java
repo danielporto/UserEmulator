@@ -11,9 +11,10 @@ import javax.xml.stream.events.StartDocument;
 public class QuoddyUserEmulator {
 	public static String baseUrl = new String(
 			"http://swsao5001.mpi-sws.org:8080");
-	public static final int numberOfClients = 2;
+	public static final int numberOfClients = 1;
 	public static final String userPrefix = "user";
-	public static final int numberOfExistingUsers = 13;
+	public static final String userPassword = "secret";
+	public static final int numberOfExistingUsers = 1000;
 	public static final int numberOfStates = 14;
 	public static final int warmUpTime = 6000;
 	public static final int simulationTime = 60000;
@@ -30,8 +31,7 @@ public class QuoddyUserEmulator {
 	}
 
 	public static void run() {
-		endOfSession = System.currentTimeMillis() + warmUpTime + simulationTime
-				+ tearDownTime;
+		endOfSession = System.currentTimeMillis() + warmUpTime + simulationTime	+ tearDownTime;
 		GregorianCalendar startDate;
 		GregorianCalendar endDate;
 		GregorianCalendar startWarmUp;

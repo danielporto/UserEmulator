@@ -110,7 +110,7 @@ public class TransitionTable
    */
   public void resetToInitialState()
   {
-    currentState = 0;
+    currentState = Transitions.doLogin;//login
     stats.incrementCount(currentState);
   }
 
