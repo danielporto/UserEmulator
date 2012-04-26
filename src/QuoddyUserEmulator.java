@@ -12,6 +12,7 @@ public class QuoddyUserEmulator {
 	public static String baseUrl = new String(
 			"http://swsao5001.mpi-sws.org:8080");
 	public static final int numberOfClients = 2;
+	public static final String userPrefix = "user";
 	public static final int numberOfExistingUsers = 13;
 	public static final int numberOfStates = 14;
 	public static final int warmUpTime = 6000;
@@ -24,8 +25,8 @@ public class QuoddyUserEmulator {
 	public static final boolean DEBUG = true;
 
 	public static void main(String[] args) {
-		test();
-		// run();
+		//test();
+		run();
 	}
 
 	public static void run() {

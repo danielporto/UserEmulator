@@ -104,7 +104,7 @@ public class UserSession extends Thread {
 		driver = new HtmlUnitDriver();
 		//driver = new FirefoxDriver();
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-		state = new Transitions("testuser"+id);
+		state = new Transitions(QuoddyUserEmulator.userPrefix+id);
 
 		transition = new TransitionTable(QuoddyUserEmulator.numberOfStates,
 				QuoddyUserEmulator.numberOfStates, statistics,
