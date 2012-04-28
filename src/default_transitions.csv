@@ -1,35 +1,40 @@
-Quoddy Transition Table	Default transition set															
+Quoddy Transition Table	Default transition set	the way we read the table is: look at the column name. It means the current page you see and the lines means the states you can go from that page														
 	1	2	3	4	5	6	7	8	9	10	11	12	13			
 To >>> From vvvv  	GoHome	Login	UpdateStatus	MyUpdates	ListAllUsers	ViewUserProfile	AddToFriend	ViewPrendingFriendRequests	ConfirmPendingRequest	ListAllFriends	FollowUser	ListUsersIFollow	ListMyFollowers	Transition waiting time		
-GoHome	0.10	0.10	0.10	0.10	0.10	0.10	0.10	0.10	0.10	0.10	0.10	0.10	0.10	1000	1.3	1
-Login	0.00	0.00	0.00	0.00	0.00	0.00	0.00	0.00	0.00	0.00	0.00	0.00	0.00	1000	0	2
-UpdateStatus	0.30	0.30	0.30	0.00	0.00	0.00	0.00	0.00	0.30	0.00	0.00	0.00	0.00	1000	1.2	3
-MyUpdates	0.10	0.10	0.10	0.03	0.10	0.10	0.10	0.10	0.10	0.10	0.10	0.10	0.10	1000	1.23	4
-ListAllUsers	0.05	0.05	0.05	0.05	0.05	0.05	0.05	0.05	0.05	0.05	0.05	0.05	0.05	1000	0.65	5
-ViewUserProfile	0.10	0.10	0.10	0.00	0.40	0.00	0.00	0.00	0.10	0.40	0.00	0.40	0.40	1000	2	6
-AddToFriend	0.00	0.00	0.00	0.00	0.00	0.20	0.00	0.00	0.00	0.00	0.00	0.00	0.00	1000	0.2	7
-ViewPrendingFriendRequests	0.10	0.10	0.10	0.30	0.10	0.10	0.26	0.10	0.10	0.10	0.26	0.10	0.10	1000	1.82	8
-ConfirmPendingRequest	0.00	0.00	0.00	0.00	0.00	0.00	0.00	0.40	0.00	0.00	0.00	0.00	0.00	1000	0.4	9
-ListAllFriends	0.08	0.08	0.08	0.10	0.08	0.08	0.08	0.08	0.08	0.08	0.08	0.08	0.08	1000	1.06	10
-FollowUser	0.00	0.00	0.00	0.00	0.00	0.20	0.00	0.00	0.00	0.00	0.00	0.00	0.00	1000	0.2	11
-ListUsersIFollow	0.08	0.08	0.08	0.21	0.08	0.08	0.20	0.08	0.08	0.08	0.20	0.08	0.08	1000	1.41	12
-ListMyFollowers	0.08	0.08	0.08	0.20	0.08	0.08	0.20	0.08	0.08	0.08	0.20	0.08	0.08	1000	1.4	13
-End of Session	0.01	0.01	0.01	0.01	0.01	0.01	0.01	0.01	0.01	0.01	0.01	0.01	0.01	0	0.13	14
-Header probability	1	1	1	1	1	1	1	1	1	1	1	1	1			
+GoHome	0.01915	0.01915	0.01915	0.01915	0.01915	0.01915	0.01915	0.01915	0.01915	0.01915	0.01915	0.01915	0.01915	1000		1
+Login	0.00000	0.00000	0.00000	0.00000	0.00000	0.00000	0.00000	0.00000	0.00000	0.00000	0.00000	0.00000	0.00000	1000		2
+UpdateStatus	0.01068	0.01068	0.01068	0.00000	0.00000	0.00000	0.00000	0.00000	0.01068	0.00000	0.00000	0.00000	0.00000	1000		3
+MyUpdates	0.01858	0.01858	0.01858	0.01858	0.01858	0.01858	0.01858	0.01858	0.01858	0.01858	0.01858	0.01858	0.01858	1000		4
+ListAllUsers	0.00012	0.00012	0.00012	0.00012	0.00012	0.00012	0.00012	0.00012	0.00012	0.00012	0.00012	0.00012	0.00012	1000		5
+ViewUserProfile	0.03295	0.03295	0.03295	0.00000	0.03295	0.00000	0.00000	0.00000	0.03295	0.03295	0.00000	0.03295	0.03295	1000		6
+AddToFriend	0.00000	0.00000	0.00000	0.00000	0.00000	0.02807	0.00000	0.00000	0.00000	0.00000	0.00000	0.00000	0.00000	1000		7
+ViewPrendingFriendRequests	0.00057	0.00057	0.00057	0.00057	0.00057	0.00057	0.00057	0.00057	0.00057	0.00057	0.00057	0.00057	0.00057	1000		8
+ConfirmPendingRequest	0.00000	0.00000	0.00000	0.00000	0.00000	0.00000	0.00000	1.00000	0.00000	0.00000	0.00000	0.00000	0.00000	1000		9
+ListAllFriends	0.00645	0.00645	0.00645	0.00645	0.00645	0.00645	0.00645	0.00645	0.00645	0.00645	0.00645	0.00645	0.00645	1000		10
+FollowUser	0.00000	0.00000	0.00000	0.00000	0.00000	0.02807	0.00000	0.00000	0.00000	0.00000	0.00000	0.00000	0.00000	1000		11
+ListUsersIFollow	0.00645	0.00645	0.00645	0.00645	0.00645	0.00645	0.00645	0.00645	0.00645	0.00645	0.00645	0.00645	0.00645	1000		12
+ListMyFollowers	0.00034	0.00034	0.00034	0.00034	0.00034	0.00034	0.00034	0.00034	0.00034	0.00034	0.00034	0.00034	0.00034	1000		13
+End of Session	0.00010	0.00010	0.00010	0.00010	0.00010	0.00010	0.00010	0.00010	0.00010	0.00010	0.00010	0.00010	0.00010	0		14
+Header probability	0.0953788462	0.0953788462	0.0953788462	0.0517538462	0.0847038462	0.1078995214	0.0517538462	1.0517538462	0.0953788462	0.0847038462	0.0517538462	0.0847038462	0.0847038462			
 																
 																
-Probabilities for header																
-HomeProb	0.01		0.00	Value that is automatically computed												
-RegisterProb	0.01		0.00	Value that has to be set manually												
-BrowseProb	0.58		0.00	State where we can potentially go back (value must be set to 0)												
-SellProb	0.05															
-AboutMeProb	0.15															
-EndOfSessionProb	0.20															
-Total	1.00															
+Probabilities for header					divide probability by the number of possible states											
+Login	no equivalent interaction		0.000	0.000	0.00000											
+My updates	Browse scraps /Browse testimonials written		24.150	0.242	0.01858											
+Update status	Write scraps/Write testimonials		4.270	0.043	0.01068											
+View a user profile	Browse profiles		26.360	0.264	0.03295											
+Home	Browse homepage		24.890	0.249	0.01915											
+List my friends	Browse the list of friends		8.390	0.084	0.00645											
+Add to Friend	Manage friend invitation		0.740	0.007												
+View pending friend requests	Manage friend invitation		0.740	0.007	0.00057											
+Confirm friend requests	Manage friend invitation		0.740	0.007												
+List I Follow			8.390	0.084	0.00645											
+List my followers	Browse fans		0.440	0.004	0.00034											
+List all users	Browse user lists		0.150	0.002	0.00012											
+Follow somebody	no equivalent interaction		0.740	0.007												
+Logout	no equivalent interaction		0.000	0.000												
 																
-Probabilities for home page																
-RegisterProb	0.07															
-BrowseProb	0.70															
-SellProb	0.08															
-AboutMeProb	0.15															
-Total	1.00															
+																
+Total read operations	93.51															
+Total write operations	6.49															
+TOTAL 	100.00															

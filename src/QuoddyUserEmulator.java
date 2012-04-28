@@ -17,7 +17,7 @@ public class QuoddyUserEmulator {
 	public static final int numberOfExistingUsers = 1000;
 	public static final int numberOfStates = 14;//check Transitions class 
 	public static final int warmUpTime = 6000;
-	public static final int simulationTime = 10000;
+	public static final int simulationTime = 60000;
 	public static final int tearDownTime = 6000;
 	public static final String transitionTable = "default_transitions.csv";
 	public static final int maxTransitionsPerSession = 20;
