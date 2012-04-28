@@ -312,8 +312,8 @@ public class Stats
     
     DecimalFormat df = new DecimalFormat("#.##");
     out.println(title+" statistics");
-    out.printf("%-20s | %-7s | %-7s | %-7s | %-7s | %-7s | %-7s | %-7s | %-7s | %-7s \n",
-    		"State name", "% of total", "Count","Errors","Minimum Time","Maximum Time","Average Time","# SAMPLES","AVERAGE","STANDARD DEVIATION");
+    out.printf("%-27s | %-10s | %-7s | %-7s | %-10s | %-10s | %-10s | %-10s | %-10s ms | %-10s \n",
+    		"State name", "% of total", "Count","Errors","Min Time","Max Time","Avg Time","SAMPLES","AVERAGE","STANDARD DEVIATION");
 
     // Display stat for each state
     for (int i = 0 ; i < getNbOfStats() ; i++)
@@ -360,7 +360,7 @@ public class Stats
         	stddeviations="0";	
         }
       }
-      out.printf("%-27s | %-7s | %-7s | %-7s | %-7s | %-7s | %-7s | %-7s | %-7s | %-7s \n", 
+      out.printf("%-27s | %-10s | %-7s | %-7s | %-10s | %-10s | %-10s | %-10s | %-10s ms | %-10s \n",
 	  TransitionTable.getStateName(i), percentOfTotal, countss,errors,minTimes,maxTimes,avgTimes,samples,averages,stddeviations);
 
     }
@@ -373,7 +373,7 @@ public class Stats
 //      counts += errors;
 //      out.println(time/counts+" ms</B></div>");
       
-    	out.printf("%-27s | %-7s | %-7s | %-7s | %-7s | %-7s | %-7s | %-7s | %-7s | %-7s \n",
+        out.printf("%-27s | %-10s | %-7s | %-7s | %-10s | %-10s | %-10s | %-10s | %-10s ms | %-10s \n",
     		  "Totals", "100 %", counts+"",errors+"","-","-",time/(counts+errors) +" ms" ,"","","");
       // Display stats about sessions
       out.println("Average throughput "+1000*counts/sessionTime+" req/s");

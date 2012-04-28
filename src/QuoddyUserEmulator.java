@@ -17,7 +17,7 @@ public class QuoddyUserEmulator {
 	public static final int numberOfExistingUsers = 1000;
 	public static final int numberOfStates = 14;//check Transitions class 
 	public static final int warmUpTime = 6000;
-	public static final int simulationTime = 60000;
+	public static final int simulationTime = 10000;
 	public static final int tearDownTime = 6000;
 	public static final String transitionTable = "default_transitions.csv";
 	public static final int maxTransitionsPerSession = 20;
@@ -195,7 +195,7 @@ public class QuoddyUserEmulator {
 		for (i = 0; i < stat.getNbOfStats(); i++) {
 			// out.printf("# "+
 			// TransitionTable.getStateName(i)+": ERROR "+stat.getError(i)+" NInteractions"+stat.getCountHistogram(i));
-			out.printf("# %-25s: %-5s %4d %-15s %4d\n",
+			out.printf("# %-26s: %-5s %4d %-15s %4d\n",
 					TransitionTable.getStateName(i), "ERROR", stat.getError(i),
 					"Interactions", stat.getCountHistogram(i));
 			errorqty += stat.getError(i);
