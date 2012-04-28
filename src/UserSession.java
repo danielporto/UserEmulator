@@ -90,7 +90,7 @@ public class UserSession extends Thread {
 		password=QuoddyUserEmulator.userPassword;
 		state = new Transitions("INITIAL"); //current username
 		
-		transitiontable = new TransitionTable(QuoddyUserEmulator.numberOfStates,	QuoddyUserEmulator.numberOfStates+1, 
+		transitiontable = new TransitionTable(QuoddyUserEmulator.numberOfStates-1,	QuoddyUserEmulator.numberOfStates, 
 				statistics,QuoddyUserEmulator.useThinkTime);
 		
 		if (!transitiontable.ReadExcelTextFile(QuoddyUserEmulator.transitionTable)){
@@ -149,6 +149,13 @@ public class UserSession extends Thread {
 		long startSession = 0;
 		long endSession = 0;
 
+		
+		try {
+			goNextState(Transitions.goHome);
+		} catch (ItemNotFoundException e1) {
+			//nothing important to do
+		}
+		
 		while (QuoddyUserEmulator.totalSimulationTime > System.currentTimeMillis()) {
 			username=QuoddyUserEmulator.userPrefix+rand.nextInt(QuoddyUserEmulator.numberOfExistingUsers+1);
 			nbOfTransitions = QuoddyUserEmulator.maxTransitionsPerSession;//reset user budget
@@ -157,18 +164,15 @@ public class UserSession extends Thread {
 			System.out.println("Thread " + this.getName()+ ": Starting a new user session for " + username);
 			startSession = System.currentTimeMillis();
 			// Start from Home Page -- this transitions are not count in the evaluation!!!!
-			try {
-				goNextState(Transitions.goHome);
-			} catch (ItemNotFoundException e1) {
-				//nothing important to do
-			}
+		
 			transitiontable.resetToInitialState();
 			next = transitiontable.getCurrentState();
 			/*
 			 * keep issuing requests to website while the user have interactions in the budget, 
 			 * the user didnt decide to go out from the website (or logout)
+			 *the last one is to prevent the system from go beyond the experiment time and abort the user session
 			 * */
-			while (nbOfTransitions > 0 || !transitiontable.isEndOfSession()) {
+			while (nbOfTransitions > 0 && !transitiontable.isEndOfSession() && QuoddyUserEmulator.totalSimulationTime > System.currentTimeMillis()) {
 				try{
 				time = goNextState(next); //get the time before the interaction
 				}
@@ -184,7 +188,7 @@ public class UserSession extends Thread {
 				}
 				stats.updateTime(next, System.currentTimeMillis() - time);
 				next = transitiontable.nextState();
-				System.out.println("moving to state:"+next);
+				//System.out.println("moving to state:"+next);
 				nbOfTransitions--;
 			}
 			
@@ -193,8 +197,13 @@ public class UserSession extends Thread {
 					endSession = System.currentTimeMillis();
 					long sessionTime = endSession - startSession;
 					stats.addSessionTime(sessionTime);
-			} else {
+			} else if(!(QuoddyUserEmulator.totalSimulationTime > System.currentTimeMillis())){
 					System.out.println("Thread " + this.getName()+ ": Session of " + username + " aborted");
+					try {
+						goNextState(Transitions.goHome);
+					} catch (ItemNotFoundException e1) {
+						//nothing important to do
+					}
 			}
 		}//big while
 	}//method

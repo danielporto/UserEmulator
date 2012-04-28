@@ -11,11 +11,11 @@ import javax.xml.stream.events.StartDocument;
 public class QuoddyUserEmulator {
 	public static String baseUrl = new String(
 			"http://swsao5001.mpi-sws.org:8080");
-	public static final int numberOfClients = 10;
+	public static final int numberOfClients = 25;
 	public static final String userPrefix = "user";
 	public static final String userPassword = "secret";
 	public static final int numberOfExistingUsers = 1000;
-	public static final int numberOfStates = 13;
+	public static final int numberOfStates = 14;//check Transitions class 
 	public static final int warmUpTime = 6000;
 	public static final int simulationTime = 60000;
 	public static final int tearDownTime = 6000;

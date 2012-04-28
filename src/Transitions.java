@@ -22,7 +22,7 @@ public static final int doListAllMyFriends=9;
 public static final int doFollowUser=10;
 public static final int doListUsersIFollow=11;
 public static final int doListAllMyFollowers=12;
-public static final int endOfSession=13;
+public static final int endOfSession=13; //must be the last one aways!!!
 
 	
 	Random number;

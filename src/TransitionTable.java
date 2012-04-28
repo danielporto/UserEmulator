@@ -217,7 +217,7 @@ public class TransitionTable
         break;
       }
     }
-    
+    //System.out.println("previous state:"+beforeStep+" next state "+currentState);
     // Deal with Back to previous state
 //    if (currentState == nbRows-2)
 //    { 
@@ -317,7 +317,7 @@ public class TransitionTable
       {
         st = new StringTokenizer(reader.readLine(), "\t");
         stateNames[i] = st.nextToken();
-        System.out.println("reading transition table element:"+stateNames[i]);
+        //System.out.println("reading transition table element:"+stateNames[i]);
         for (j = 0 ; j < nbColumns ; j++)
         {
           Float f = new Float(st.nextToken());
