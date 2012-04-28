@@ -360,7 +360,7 @@ public class Stats
         	stddeviations="0";	
         }
       }
-      out.printf("%-25s | %-7s | %-7s | %-7s | %-7s | %-7s | %-7s | %-7s | %-7s | %-7s \n", 
+      out.printf("%-27s | %-7s | %-7s | %-7s | %-7s | %-7s | %-7s | %-7s | %-7s | %-7s \n", 
 	  TransitionTable.getStateName(i), percentOfTotal, countss,errors,minTimes,maxTimes,avgTimes,samples,averages,stddeviations);
 
     }
@@ -373,7 +373,7 @@ public class Stats
 //      counts += errors;
 //      out.println(time/counts+" ms</B></div>");
       
-    	out.printf("%-25s | %-7s | %-7s | %-7s | %-7s | %-7s | %-7s | %-7s | %-7s | %-7s \n",
+    	out.printf("%-27s | %-7s | %-7s | %-7s | %-7s | %-7s | %-7s | %-7s | %-7s | %-7s \n",
     		  "Totals", "100 %", counts+"",errors+"","-","-",time/(counts+errors) +" ms" ,"","","");
       // Display stats about sessions
       out.println("Average throughput "+1000*counts/sessionTime+" req/s");
@@ -385,7 +385,7 @@ public class Stats
       else
         out.print("0 second\n");
     }
-    out.println("----------------------------------------------------------------------------------");
+    out.println("--------------------------------------------------------------------------------------------------------------------------------------------------------------------");
   }
 
 }
