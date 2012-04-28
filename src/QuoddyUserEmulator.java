@@ -114,22 +114,12 @@ public class QuoddyUserEmulator {
 		// Prepare the output data
 		PrintStream outputStream;
 		try {
-			outputStream = new PrintStream(new FileOutputStream(reportDir
-					+ "result.txt"));
+			outputStream = new PrintStream(new FileOutputStream(reportDir+ "result.txt"));
 
 			System.setOut(outputStream);
-			System.out.println("Warm up statistics");
-			warmUpStats.display_stats("Warm up",
-					TimeManagement.diffTimeInMs(startWarmUp, endWarmUp), false);
-			System.out.println("Runtime statistics");
-			simulationStats.display_stats("Runtime session",
-					TimeManagement.diffTimeInMs(startSession, endSession),
-					false);
-			System.out.println("Teardown statistics");
-			tearDownStats.display_stats("Tear down",
-					TimeManagement.diffTimeInMs(startTearDown, endTearDown),
-					false);
-
+			warmUpStats.display_stats(outputStream,"Warm up",TimeManagement.diffTimeInMs(startWarmUp, endWarmUp), false);
+			simulationStats.display_stats(outputStream,"Runtime session",TimeManagement.diffTimeInMs(startSession, endSession),false);
+			tearDownStats.display_stats(outputStream,"Tear down",TimeManagement.diffTimeInMs(startTearDown, endTearDown),false);
 			printGnuPlotFile(outputStream, simulationStats, baseUrl);
 		} catch (Exception e) {
 			System.err.println("Problem generating gnuplot file");

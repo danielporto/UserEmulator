@@ -294,15 +294,27 @@ public class Stats
    * @param sessionTime total time for this session
    * @param exclude0Stat true if you want to exclude the stat with a 0 value from the output
    */
-  public void display_stats(String title, long sessionTime, boolean exclude0Stat)
+  public void display_stats(PrintStream out, String title, long sessionTime, boolean exclude0Stat)
   {
     int counts = 0;
     int errors = 0;
     long time = 0;
+    String percentOfTotal="";
+    String countss="";
+    String errorss="";
+    String minTimes="";
+    String maxTimes="";
+    String avgTimes="";
+    String samples="";
+    String averages="";
+    String stddeviations="";
+    
+    
     DecimalFormat df = new DecimalFormat("#.##");
-    System.out.println("<br><h3>"+title+" statistics</h3><p>");
-    System.out.println("<TABLE BORDER=1>");
-    System.out.println("<THEAD><TR><TH>State name<TH>% of total<TH>Count<TH>Errors<TH>Minimum Time<TH>Maximum Time<TH>Average Time<TH># SAMPLES<TH>AVERAGE<TH>STANDARD DEVIATION<TBODY>");
+    out.println(title+" statistics");
+    out.printf("%-20s | %-7s | %-7s | %-7s | %-7s | %-7s | %-7s | %-7s | %-7s | %-7s \n",
+    		"State name", "% of total", "Count","Errors","Minimum Time","Maximum Time","Average Time","# SAMPLES","AVERAGE","STANDARD DEVIATION");
+
     // Display stat for each state
     for (int i = 0 ; i < getNbOfStats() ; i++)
     {
@@ -316,66 +328,64 @@ public class Stats
       if ((exclude0Stat && count[i] != 0) || (!exclude0Stat))
       {
         //LINE NAME
-    	System.out.print("<TR><TD><div align=left>"+TransitionTable.getStateName(i)+"</div><TD><div align=right>");
         if ((counts > 0) && (count[i] > 0))
-          System.out.print(100*count[i]/counts+" %");
+          percentOfTotal= (100*count[i]/counts+" %");
         else
-          System.out.print("0 %");
+        	percentOfTotal= ("0 %");
 
         //COUNT
-        System.out.print("</div><TD><div align=right>"+count[i]+"</div><TD><div align=right>");
-        if (error[i] > 0)
-          System.out.print("<B>"+error[i]+"</B>");
-        else
-          System.out.print(error[i]);
+        countss=count[i]+"";
+        //ERRORs
+        errorss=error[i]+"";
         
-        System.out.print("</div><TD><div align=right>");
         if (minTime[i] != Long.MAX_VALUE)
-          System.out.print(minTime[i]);
+          minTimes=minTime[i]+" ms";
         else
-          System.out.print("0");
+        	minTimes="0"+" ms";;
         
-        System.out.print(" ms</div><TD><div align=right>"+maxTime[i]+" ms</div><TD><div align=right>");
+        maxTimes=maxTime[i]+" ms";
         if (count[i] != 0)
-          System.out.println(totalTime[i]/count[i]+" ms</div>");
+         avgTimes=(totalTime[i]/count[i]+" ms");
         else
-           System.out.println("0 ms</div>");
+        	avgTimes=("0 ms");
+        
         if(interaction_response_time[i].samples()>0){
-        	System.out.print("<TD><div align=right>"+interaction_response_time[i].samples()+"</div></TD>");
-        	System.out.print("<TD><div align=right>"+df.format(interaction_response_time[i].average())+" ms</div></TD>");
-            System.out.print("<TD><div align=right>"+df.format(interaction_response_time[i].standard_deviation())+"</div></TD>");
+        	samples=interaction_response_time[i].samples()+"";
+        	averages=df.format(interaction_response_time[i].average())+" ms";
+            stddeviations=df.format(interaction_response_time[i].standard_deviation())+"";
         }
         else{
-        	System.out.print("<TD><div align=right>0</div></TD>");
-        	System.out.print("<TD><div align=right>0ms</div></TD>");
-            System.out.print("<TD><div align=right>0</div></TD>");	
+        	samples="0";
+        	averages="0 m";
+        	stddeviations="0";	
         }
-
-        
-        
-        
       }
+      out.printf("%-25s | %-7s | %-7s | %-7s | %-7s | %-7s | %-7s | %-7s | %-7s | %-7s \n", 
+	  TransitionTable.getStateName(i), percentOfTotal, countss,errors,minTimes,maxTimes,avgTimes,samples,averages,stddeviations);
+
     }
 
     // Display total   
     if (counts > 0)
     {
-      System.out.print("<TR><TD><div align=left><B>Total</B></div><TD><div align=right><B>100 %</B></div><TD><div align=right><B>"+counts+
-                       "</B></div><TD><div align=right><B>"+errors+ "</B></div><TD><div align=center>-</div><TD><div align=center>-</div><TD><div align=right><B>");
-      counts += errors;
-      System.out.println(time/counts+" ms</B></div>");
+//      out.print("<TR><TD><div align=left><B>Total</B></div><TD><div align=right><B>100 %</B></div><TD><div align=right><B>"+counts+
+//                       "</B></div><TD><div align=right><B>"+errors+ "</B></div><TD><div align=center>-</div><TD><div align=center>-</div><TD><div align=right><B>");
+//      counts += errors;
+//      out.println(time/counts+" ms</B></div>");
+      
+    	out.printf("%-25s | %-7s | %-7s | %-7s | %-7s | %-7s | %-7s | %-7s | %-7s | %-7s \n",
+    		  "Totals", "100 %", counts+"",errors+"","-","-",time/(counts+errors) +" ms" ,"","","");
       // Display stats about sessions
-      System.out.println("<TR><TD><div align=left><B>Average throughput</div></B><TD colspan=6><div align=center><B>"+1000*counts/sessionTime+" req/s</B></div>");
-      System.out.println("<TR><TD><div align=left>Completed sessions</div><TD colspan=6><div align=left>"+nbSessions+"</div>");
-      System.out.println("<TR><TD><div align=left>Total time</div><TD colspan=6><div align=left>"+sessionsTime/1000L+" seconds</div>");
-      System.out.print("<TR><TD><div align=left><B>Average session time</div></B><TD colspan=6><div align=left><B>");
+      out.println("Average throughput "+1000*counts/sessionTime+" req/s");
+      out.println("Completed sessions "+nbSessions);
+      out.println("Total time "+sessionsTime/1000L+" seconds");
+      out.print("Average session time");
       if (nbSessions > 0)
-        System.out.print(sessionsTime/(long)nbSessions/1000L+" seconds");
+        out.print(sessionsTime/(long)nbSessions/1000L+" seconds\n");
       else
-        System.out.print("0 second");
-      System.out.println("</B></div>");
+        out.print("0 second\n");
     }
-    System.out.println("</TABLE><p>");
+    out.println("----------------------------------------------------------------------------------");
   }
 
 }
