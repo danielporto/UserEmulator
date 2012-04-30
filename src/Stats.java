@@ -49,7 +49,7 @@ public class Stats
   private int  nbSessions;   // Number of sessions succesfully ended
   private long sessionsTime; // Sessions total duration
   private Histogram [] interaction_response_time;
-  int interaction_response_time_max=60000;
+  int interaction_response_time_max=6000;
   int interaction_response_time_binsize=10;
   /**
    * Creates a new <code>Stats</code> instance.

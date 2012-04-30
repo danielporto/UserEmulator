@@ -58,9 +58,7 @@ public class QuoddyUserEmulator {
 		startDate = new GregorianCalendar();
 		String reportDir = "";
 		String tmpDir = "/tmp/";
-
-		int dcId = 0; // Integer.parseInt(args[0]);
-		int userId = 0;// Integer.parseInt(args[1]);
+		
 		System.out
 				.println("Quoddy client emulator - (C) Max Planck Institute for Software System 2012\n");
 		reportDir = "benchmark/quoddy_dcId" + dcId + "_userId_" + userId + "_"

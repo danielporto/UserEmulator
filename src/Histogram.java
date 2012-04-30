@@ -208,17 +208,16 @@ public class Histogram
 	  return Math.sqrt(variance());
   }
 
-//  public void Print(PrintStream out)
-//  /*------------------------------------------------------------------------*\
-//   | Prints out the histogram data to the output stream specified.
-//  \*------------------------------------------------------------------------*/
-//  {
-//    int i;
-//    
-//    for (i=0;i<hist.length;i++) {
-//      out.println(Pad.r(6,i*binSize)+"  " + Pad.r(12, hist[i]));
-//    }
-//  }
+public void Print(PrintStream out)
+/*------------------------------------------------------------------------*\
+   | Prints out the histogram data to the output stream specified.
+  \*------------------------------------------------------------------------*/
+  {    int i;
+   
+    for (i=0;i<hist.length;i++) {
+      out.println(Pad.r(6,i*binSize)+"  " + Pad.r(12, hist[i]));
+    }
+  }
 
   public void PrintStats(PrintStream out)
   /*------------------------------------------------------------------------*\
@@ -236,7 +235,7 @@ public class Histogram
   public void printMFile(PrintStream out, String name)
   {
 	 out.println(name + ".h = [");
-	 //Print(out);
+	 Print(out);
 	 out.println("];");
 	 out.println(name + ".samples = " + samples() + ";");
 	 out.println(name + ".sum     = " + sum() + ";");
