@@ -34,15 +34,7 @@ public static final int endOfSession=13; //must be the last one aways!!!
 	public long doLogin(WebDriver driver) {
 		long time = goHome(driver);
 		driver.navigate()
-				.to(QuoddyUserEmulator.baseUrl + "/quoddy/login/index");
-		driver.findElement(By.id("username")).clear();
-		driver.findElement(By.id("username")).sendKeys(user);
-		driver.findElement(By.id("password")).clear();
-		driver.findElement(By.id("password")).sendKeys(QuoddyUserEmulator.userPassword);
-		// non blocking
-		driver.findElement(By.id("login")).click();
-		// blocking
-		// goHome(driver);
+				.to(QuoddyUserEmulator.baseUrl + "/login/index?username="+user+"&password="+QuoddyUserEmulator.userPassword);
 		System.out.println("User "+user+" Login process finished");
 		return time;
 	}
@@ -52,7 +44,7 @@ public static final int endOfSession=13; //must be the last one aways!!!
 	 */
 	public long doLogout(WebDriver driver) {
 		long time = System.currentTimeMillis();
-		driver.navigate().to(QuoddyUserEmulator.baseUrl + "/quoddy/login/logout");
+		driver.navigate().to(QuoddyUserEmulator.baseUrl + "/login/logout");
 		System.out.println("User "+user+" Logout process finished");
 		return time;
 	}
@@ -77,7 +69,7 @@ public static final int endOfSession=13; //must be the last one aways!!!
 	public long doListMyUpdates(WebDriver driver) {
 		long time = System.currentTimeMillis();
 		driver.navigate().to(
-				QuoddyUserEmulator.baseUrl + "/quoddy/status/listUpdates");
+				QuoddyUserEmulator.baseUrl + "/status/listUpdates");
 		if (QuoddyUserEmulator.DEBUG)
 			System.out.println("User "+user+" List updates process finished");
 		return time;
@@ -85,7 +77,7 @@ public static final int endOfSession=13; //must be the last one aways!!!
 
 	public long doListAllUsers(WebDriver driver) {
 		long time = System.currentTimeMillis();
-		driver.navigate().to(QuoddyUserEmulator.baseUrl + "/quoddy/user/list");
+		driver.navigate().to(QuoddyUserEmulator.baseUrl + "/user/list");
 		if (QuoddyUserEmulator.DEBUG) System.out.println("User "+user+" List all users process finished");
 		return time;
 	}
@@ -93,7 +85,7 @@ public static final int endOfSession=13; //must be the last one aways!!!
 	public long doListAllMyFriends(WebDriver driver) {
 		long time = System.currentTimeMillis();
 		driver.navigate().to(
-				QuoddyUserEmulator.baseUrl + "/quoddy/user/listFriends");
+				QuoddyUserEmulator.baseUrl + "/user/listFriends");
 		if (QuoddyUserEmulator.DEBUG)
 			System.out.println("User "+user+" List all my friends process finished");
 		return time;
@@ -102,7 +94,7 @@ public static final int endOfSession=13; //must be the last one aways!!!
 	public long doListAllMyFollowers(WebDriver driver) {
 		long time = System.currentTimeMillis();
 		driver.navigate().to(
-				QuoddyUserEmulator.baseUrl + "/quoddy/user/listFollowers");
+				QuoddyUserEmulator.baseUrl + "/user/listFollowers");
 		if (QuoddyUserEmulator.DEBUG)
 			System.out.println("User "+user+" List all my followers process finished");
 		return time;
@@ -111,7 +103,7 @@ public static final int endOfSession=13; //must be the last one aways!!!
 	public long doListUsersIFollow(WebDriver driver) {
 		long time = System.currentTimeMillis();
 		driver.navigate().to(
-				QuoddyUserEmulator.baseUrl + "/quoddy/user/listIFollow");
+				QuoddyUserEmulator.baseUrl + "/user/listIFollow");
 		if (QuoddyUserEmulator.DEBUG)
 			System.out.println("User "+user+" List people I follow process finished");
 		return time;
@@ -125,7 +117,7 @@ public static final int endOfSession=13; //must be the last one aways!!!
 
 	/*
 	 * show a user profile example link:
-	 * http://swsao5001.mpi-sws.org:8080/quoddy/user/viewUser?userId=testuser7
+	 * http://swsao5001.mpi-sws.org:8080/user/viewUser?userId=testuser7
 	 * TODO we need to get list of users
 	 */
 	public long doViewUsersProfile(WebDriver driver) throws ItemNotFoundException {
@@ -168,7 +160,7 @@ public static final int endOfSession=13; //must be the last one aways!!!
 	public long doUpdateStatus(WebDriver driver) {
 		long time = System.currentTimeMillis();
 		// generate string update test here
-		driver.navigate().to(QuoddyUserEmulator.baseUrl + "/quoddy/");
+		driver.navigate().to(QuoddyUserEmulator.baseUrl + "/");
 		//driver.findElement(By.id("statusText")).clear();
 		driver.findElement(By.id("statusText")).sendKeys("Hello quoddy this is my test!!!!");
 		driver.findElement(By.id("updateStatusSubmit")).click();
@@ -252,7 +244,7 @@ public static final int endOfSession=13; //must be the last one aways!!!
 		time = System.currentTimeMillis();
 		driver.navigate().to(
 				QuoddyUserEmulator.baseUrl
-						+ "/quoddy/user/listOpenFriendRequests");
+						+ "/user/listOpenFriendRequests");
 		return time;
 	}
 
@@ -296,7 +288,7 @@ public static final int endOfSession=13; //must be the last one aways!!!
 	 */
 	public long goHome(WebDriver driver) {
 		long time = System.currentTimeMillis();
-		driver.navigate().to(QuoddyUserEmulator.baseUrl + "/quoddy/");
+		driver.navigate().to(QuoddyUserEmulator.baseUrl + "/");
 		return time;
 	}
 

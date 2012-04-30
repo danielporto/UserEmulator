@@ -9,8 +9,8 @@ import java.util.GregorianCalendar;
 import javax.xml.stream.events.StartDocument;
 
 public class QuoddyUserEmulator {
-	public static String baseUrl = new String(
-			"http://swsao5001.mpi-sws.org:8080");
+	public static String baseUrl = "http://wks-40-12.mpi-sws.org:8080/quoddy2-0.1";
+			//"http://swsao5001.mpi-sws.org:8080/quoddy2-0.1");
 	public static int numberOfClients = 25;
 	public static final String userPrefix = "user";
 	public static final String userPassword = "secret";
@@ -35,7 +35,7 @@ public class QuoddyUserEmulator {
 		//test();
 		dcId = Integer.parseInt(args[0]);
 		userId = Integer.parseInt(args[1]);
-		baseUrl = new String("http://"+args[2]+":8080");
+		//baseUrl = new String(args[2]);
 		System.out.println("I am a user at dc " + dcId + " and my id is " + userId + " my proxy is " + baseUrl);
 		numberOfClients = Integer.parseInt(args[3]);
 		warmUpTime = Integer.parseInt(args[4]);
