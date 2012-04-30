@@ -50,7 +50,7 @@ public class Stats
   private long sessionsTime; // Sessions total duration
   private Histogram [] interaction_response_time;
   int interaction_response_time_max=60000;
-  int interaction_response_time_binsize=50;
+  int interaction_response_time_binsize=10;
   /**
    * Creates a new <code>Stats</code> instance.
    * The entries are reset to 0.

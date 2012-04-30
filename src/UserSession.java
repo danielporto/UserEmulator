@@ -157,7 +157,7 @@ public class UserSession extends Thread {
 		}
 		
 		while (QuoddyUserEmulator.totalSimulationTime > System.currentTimeMillis()) {
-			username=QuoddyUserEmulator.userPrefix+rand.nextInt(QuoddyUserEmulator.numberOfExistingUsers+1);
+			username=QuoddyUserEmulator.userPrefix+rand.nextInt(QuoddyUserEmulator.numberOfExistingUsers);
 			nbOfTransitions = QuoddyUserEmulator.maxTransitionsPerSession;//reset user budget
 			state.user=username;
 			
