@@ -387,5 +387,17 @@ public class Stats
     }
     out.println("--------------------------------------------------------------------------------------------------------------------------------------------------------------------");
   }
+  public void display_histogram(PrintStream out, String title)
+  {
+   
+    // Display stat for each state
+    for (int i = 0 ; i < getNbOfStats() ; i++)
+    {
+    	interaction_response_time[i].printMFile(out, title);
+    }
+
+    
+    out.println("--------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+  }
 
 }

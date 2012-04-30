@@ -16,11 +16,11 @@ public class QuoddyUserEmulator {
 	public static final String userPassword = "secret";
 	public static final int numberOfExistingUsers = 1000;
 	public static final int numberOfStates = 14;//check Transitions class 
-	public static int warmUpTime = 60000;
-	public static int simulationTime = 300000;
-	public static int tearDownTime = 60000;
+	public static int warmUpTime = 1*60000;
+	public static int simulationTime = 5*60000;
+	public static int tearDownTime = 1*60000;
 	public static final String transitionTable = "default_transitions.csv";
-	public static final int maxTransitionsPerSession = 200;
+	public static final int maxTransitionsPerSession = 100;
 	public static long totalSimulationTime = 0;
 	public static final boolean useThinkTime = false;
 	public static final boolean DEBUG = true;
@@ -130,6 +130,8 @@ public class QuoddyUserEmulator {
 		try {
 			outputStream = new PrintStream(new FileOutputStream(reportDir+ "result.txt"));
 
+			
+			simulationStats.display_histogram(outputStream,"Runtime session Histogram");
 			System.setOut(outputStream);
 			warmUpStats.display_stats(outputStream,"Warm up",TimeManagement.diffTimeInMs(startWarmUp, endWarmUp), false);
 			simulationStats.display_stats(outputStream,"Runtime session",TimeManagement.diffTimeInMs(startSession, endSession),false);
