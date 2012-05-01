@@ -37,8 +37,11 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import com.gargoylesoftware.htmlunit.SilentCssErrorHandler;
+import com.meterware.httpunit.HttpUnitOptions;
+import com.meterware.httpunit.WebConversation;
 
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.xml.sax.SAXException;
 /**
  * RUBiS user session emulator. This class plays a random user session emulating
  * a Web browser.
@@ -63,8 +66,9 @@ public class UserSession extends Thread {
 	// current session
 	private Stats stats; // Statistics to collect
 	// errors, time, ...
-	private WebDriver driver; // webbrowser
-	Transitions state;
+	//private WebDriver driver; // webbrowser
+	WebConversation driver;
+	Transitions2 state;
 
 	/**
 	 * Creates a new <code>UserSession</code> instance.
@@ -82,13 +86,16 @@ public class UserSession extends Thread {
 		super(thread_label+id);
 		userId=id; //thread id not exactly the user in the session
 		stats = statistics;
-		driver = new HtmlUnitDriver();
+		driver = new WebConversation();
+		HttpUnitOptions.setScriptingEnabled(false);
+		
+		//driver = new HtmlUnitDriver();
 		//driver = new FirefoxDriver();
-		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+		//driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		
 		
 		password=QuoddyUserEmulator.userPassword;
-		state = new Transitions("INITIAL"); //current username
+		state = new Transitions2(QuoddyUserEmulator.userPrefix+rand.nextInt(QuoddyUserEmulator.numberOfClients) ); //current username
 		
 		transitiontable = new TransitionTable(QuoddyUserEmulator.numberOfStates-1,	QuoddyUserEmulator.numberOfStates, 
 				statistics,QuoddyUserEmulator.useThinkTime);
@@ -119,7 +126,7 @@ public class UserSession extends Thread {
 	}
 
 
-	public long goNextState(int state) throws ItemNotFoundException{
+	public long goNextState(int state) throws ItemNotFoundException, IOException, SAXException{
 	  switch (state){
 	  case Transitions.goHome : return this.state.goHome(driver);
 	  case Transitions.doLogin: return this.state.doLogin(driver);
@@ -154,6 +161,12 @@ public class UserSession extends Thread {
 			goNextState(Transitions.goHome);
 		} catch (ItemNotFoundException e1) {
 			//nothing important to do
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SAXException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 		while (QuoddyUserEmulator.totalSimulationTime > System.currentTimeMillis()) {
@@ -203,6 +216,12 @@ public class UserSession extends Thread {
 						goNextState(Transitions.goHome);
 					} catch (ItemNotFoundException e1) {
 						//nothing important to do
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (SAXException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
 			}
 		}//big while

@@ -8,39 +8,43 @@ import java.util.GregorianCalendar;
 
 import javax.xml.stream.events.StartDocument;
 
+import org.xml.sax.SAXException;
+
 public class QuoddyUserEmulator {
-	public static String baseUrl = "http://wks-40-12.mpi-sws.org:8080/quoddy2-0.1";
+	public static String baseUrl = "http://swsao5001.mpi-sws.org:8080";
+	public static String appname = "/quoddy";
 			//"http://swsao5001.mpi-sws.org:8080/quoddy2-0.1");
-	public static int numberOfClients = 25;
+	public static int numberOfClients = 20;
 	public static final String userPrefix = "user";
 	public static final String userPassword = "secret";
 	public static final int numberOfExistingUsers = 1000;
 	public static final int numberOfStates = 14;//check Transitions class 
 	public static int warmUpTime = 1*60000;
-	public static int simulationTime = 5*60000;
+	public static int simulationTime = 1*60000;
 	public static int tearDownTime = 1*60000;
 	public static final String transitionTable = "default_transitions.csv";
 	public static final int maxTransitionsPerSession = 100;
 	public static long totalSimulationTime = 0;
 	public static final boolean useThinkTime = false;
 	public static final boolean DEBUG = true;
-	public static int dcId;
-	public static int userId;
+	public static int dcId=0;
+	public static int userId=0;
+	public static boolean getImages=false;
 
 	public static void main(String[] args) {
-		if (args.length != 7) {
-			System.out.println("QuoddyEmulator dcId userId webproxyHost userNum warmUpTime, simulationTime, tearDownTime");
-			System.exit(-1);
-		}
+//		if (args.length != 7) {
+//			System.out.println("QuoddyEmulator dcId userId webproxyHost userNum warmUpTime, simulationTime, tearDownTime");
+//			System.exit(-1);
+//		}
 		//test();
-		dcId = Integer.parseInt(args[0]);
-		userId = Integer.parseInt(args[1]);
+		//dcId = Integer.parseInt(args[0]);
+		//userId = Integer.parseInt(args[1]);
 		//baseUrl = new String(args[2]);
-		System.out.println("I am a user at dc " + dcId + " and my id is " + userId + " my proxy is " + baseUrl);
-		numberOfClients = Integer.parseInt(args[3]);
-		warmUpTime = Integer.parseInt(args[4]);
-		simulationTime = Integer.parseInt(args[5]);
-		tearDownTime = Integer.parseInt(args[6]);
+	//	System.out.println("I am a user at dc " + dcId + " and my id is " + userId + " my proxy is " + baseUrl);
+		//numberOfClients = Integer.parseInt(args[3]);
+//		warmUpTime = Integer.parseInt(args[4]);
+//		simulationTime = Integer.parseInt(args[5]);
+//		tearDownTime = Integer.parseInt(args[6]);
 		run();
 	}
 
@@ -154,22 +158,28 @@ public class QuoddyUserEmulator {
 		System.out.println("Test interaction 1");
 		start = System.currentTimeMillis();
 		try{
-		testsession.goNextState(0);// goHome(driver);
-		// testsession.goNextState(1);//doLogin(driver);
-		// testsession.goNextState(2);//doLogout(driver);
-		// testsession.goNextState(3);//doUpdateStatus(driver);
-		// testsession.goNextState(4);//doListMyUpdates(driver);
-		// testsession.goNextState(5);//doListAllUsers(driver);
-		// testsession.goNextState(6);//doViewUsersProfile(driver);
-		// testsession.goNextState(7);//doAddNewFriend(driver);
-		// testsession.goNextState(8);//doViewPendingFriendRequest(driver);
-		// testsession.goNextState(9);//doConfirmFriend(driver);
-		// testsession.goNextState(10);//doListAllMyFriends(driver);
-		// testsession.goNextState(11);//doFollowUser(driver);
-		// testsession.goNextState(12);//doListUsersIFollow(driver);
-		// testsession.goNextState(13);//doListAllMyFollowers(driver);
-		// testsession.goNextState(14);//endOfSession(driver);
+		//testsession.goNextState(0);// goHome(driver);
+		 testsession.goNextState(1);//doLogin(driver)
+		 testsession.goNextState(0);// goHome(driver);
+//		 testsession.goNextState(2);//doUpdateStatus(driver);
+//		 testsession.goNextState(3);//doListMyUpdates(driver);
+		 testsession.goNextState(4);//doListAllUsers(driver);
+		 testsession.goNextState(5);//doViewUsersProfile(driver);
+//		 testsession.goNextState(6);//doAddNewFriend(driver);
+//		 testsession.goNextState(7);//doViewPendingFriendRequest(driver);
+//		 testsession.goNextState(8);//doConfirmFriend(driver);
+//		 testsession.goNextState(9);//doListAllMyFriends(driver);
+//		 testsession.goNextState(10);//doFollowUser(driver);
+//		 testsession.goNextState(11);//doListUsersIFollow(driver);
+//		 testsession.goNextState(12);//doListAllMyFollowers(driver);
+//		 testsession.goNextState(13);//endOfSession(driver);
 		}catch(ItemNotFoundException e){
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SAXException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

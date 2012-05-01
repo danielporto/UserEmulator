@@ -3,5 +3,10 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/selenium-server-standalone-2.21.0.jar" sourcepath="lib/selenium-java-2.21.0-srcs.jar"/>
+	<classpathentry kind="lib" path="lib/httpunit.jar" sourcepath="/httpunit-1.7"/>
+	<classpathentry kind="lib" path="lib/js-1.6R5.jar"/>
+	<classpathentry kind="lib" path="lib/jtidy-4aug2000r7-dev.jar"/>
+	<classpathentry kind="lib" path="lib/xercesImpl-2.6.1.jar"/>
+	<classpathentry kind="lib" path="lib/xmlParserAPIs-2.6.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

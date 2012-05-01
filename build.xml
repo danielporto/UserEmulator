@@ -27,6 +27,7 @@
 			<include name="**/*.java" />
 			<classpath>
 				<pathelement path="lib/selenium-server-standalone-2.21.0.jar" />
+				<pathelement path="lib/httpunit.jar" />
 			</classpath>
 		</javac>
 		<copy todir="${build}">
@@ -67,6 +68,7 @@
 			<lib>
 				<fileset dir="lib">
 					<include name="selenium-server-standalone-2.21.0.jar" />
+					<include name="httpunit.jar" />
 				</fileset>
 			</lib>
 		</one-jar>
