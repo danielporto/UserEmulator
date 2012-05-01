@@ -1,4 +1,7 @@
+import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -11,6 +14,7 @@ import org.openqa.selenium.WebElement;
 import org.xml.sax.SAXException;
 
 import com.meterware.httpunit.WebConversation;
+import com.meterware.httpunit.WebImage;
 import com.meterware.httpunit.WebLink;
 import com.meterware.httpunit.WebResponse;
 
@@ -33,9 +37,9 @@ public class Transitions {
 	public static final int endOfSession=13; //must be the last one aways!!!
 	public static final int test=14; 
 	public static final String [] stateToString = {"goHome", "doLogin","doUpdateStatus", "doListMyUpdates",
-												"doListAllUsers","doViewUsersProfile", "doAddNewFriend", "doViewPendingFriendRequest",
-												"doConfirmFriend","doListAllMyFriends","doFollowUser",
-												"doListUsersIFollow","doListAllMyFollowers","endOfSession","test"};
+		"doListAllUsers","doViewUsersProfile", "doAddNewFriend", "doViewPendingFriendRequest",
+		"doConfirmFriend","doListAllMyFriends","doFollowUser",
+		"doListUsersIFollow","doListAllMyFollowers","endOfSession","test"};
 
 	Random number;
 
@@ -43,58 +47,66 @@ public class Transitions {
 		this.user=user;//only used to avoid get transitions with same user
 		number = new Random();
 	}
-/*
- * it returns the time elapsed do fetch all elements of the new page (including redirects
- * */
+	/*
+	 * it returns the time elapsed do fetch all elements of the new page (including redirects
+	 * */
 	public long doTest(WebDriver driver) throws IOException, SAXException {
 		long time;
 		String url = QuoddyUserEmulator.baseUrl+QuoddyUserEmulator.appname;
 		//System.out.println("URL:" + url);
 		time = System.currentTimeMillis();
 		driver.navigate().to(url);
+		if (QuoddyUserEmulator.getImages)
+			downloadImages(driver);
 		time = System.currentTimeMillis() - time;
 		System.out.println("User " + user + " Test process finished Latency:" + time);
 		//System.out.println(resp.getText());
 		return time;
 	}
-	
+
 	/**
 	 * it consider that Im right after reset to initial state, at login page
 	 * @param driver - client browser
 	 * @return time - the time elapsed do fetch all elements of the new page (including redirects)
+	 * @throws IOException 
 	 * */
-	public long doLogin(WebDriver driver) {
-//		long time;
-//		String url=QuoddyUserEmulator.baseUrl +QuoddyUserEmulator.appname+ "/login/index?username="+user+"&password="+QuoddyUserEmulator.userPassword;
-//		time=System.currentTimeMillis();
-//		driver.navigate().to(url);
-//		String str = driver.getPageSource();
-//		if (QuoddyUserEmulator.DEBUG){
-//			System.out.println("User "+user+" Login process finished");
-//			//System.out.println(driver.getPageSource());
-//			//System.out.println("Time to process:"+(System.currentTimeMillis()-time));
-//		}
-//		return time;
-		
-		  long time;
-          driver.findElement(By.id("username")).clear();
-          driver.findElement(By.id("username")).sendKeys(user);
-          driver.findElement(By.id("password")).clear();
-          driver.findElement(By.id("password")).sendKeys(QuoddyUserEmulator.userPassword);
-          WebElement el = driver.findElement(By.id("login"));
-          time=System.currentTimeMillis();
-          el.click();
-          System.out.println("User "+user+" Login process finished");
-          return time;
+	public long doLogin(WebDriver driver) throws IOException {
+		//		long time;
+		//		String url=QuoddyUserEmulator.baseUrl +QuoddyUserEmulator.appname+ "/login/index?username="+user+"&password="+QuoddyUserEmulator.userPassword;
+		//		time=System.currentTimeMillis();
+		//		driver.navigate().to(url);
+		//		String str = driver.getPageSource();
+		//		if (QuoddyUserEmulator.DEBUG){
+		//			System.out.println("User "+user+" Login process finished");
+		//			//System.out.println(driver.getPageSource());
+		//			//System.out.println("Time to process:"+(System.currentTimeMillis()-time));
+		//		}
+		//		return time;
+
+		long time;
+		driver.findElement(By.id("username")).clear();
+		driver.findElement(By.id("username")).sendKeys(user);
+		driver.findElement(By.id("password")).clear();
+		driver.findElement(By.id("password")).sendKeys(QuoddyUserEmulator.userPassword);
+		WebElement el = driver.findElement(By.id("login"));
+		time=System.currentTimeMillis();
+		el.click();
+		if (QuoddyUserEmulator.getImages)
+			downloadImages(driver);
+		System.out.println("User "+user+" Login process finished");
+		return time;
 	}
 
 	/**
 	 * @param driver - client browser
 	 * @return time - the time elapsed do fetch all elements of the new page (including redirects)
+	 * @throws IOException 
 	 * */
-	public long doLogout(WebDriver driver) {
+	public long doLogout(WebDriver driver) throws IOException {
 		long time = System.currentTimeMillis();
 		driver.navigate().to(QuoddyUserEmulator.baseUrl +QuoddyUserEmulator.appname+ "/login/logout");
+		if (QuoddyUserEmulator.getImages)
+			downloadImages(driver);
 		if (QuoddyUserEmulator.DEBUG) {
 			System.out.println("User "+user+" Logout process finished");
 			System.out.println("Time to process:"+(System.currentTimeMillis()-time));
@@ -122,12 +134,15 @@ public class Transitions {
 	 * 
 	 * @param driver - client browser
 	 * @return time - the time elapsed do fetch all elements of the new page (including redirects)
+	 * @throws IOException 
 	 */
-	public long doListMyUpdates(WebDriver driver) {
+	public long doListMyUpdates(WebDriver driver) throws IOException {
 		long time;// = System.currentTimeMillis();
 		String url=	QuoddyUserEmulator.baseUrl +QuoddyUserEmulator.appname+ "/status/listUpdates";
 		time = System.currentTimeMillis();
 		driver.navigate().to(url);
+		if (QuoddyUserEmulator.getImages)
+			downloadImages(driver);
 		if (QuoddyUserEmulator.DEBUG){
 			System.out.println("User "+user+" List updates process finished");
 			System.out.println("Time to process:"+(System.currentTimeMillis()-time));	
@@ -138,84 +153,122 @@ public class Transitions {
 	/**
 	 * @param driver - client browser
 	 * @return time - the time elapsed do fetch all elements of the new page (including redirects)
+	 * @throws IOException 
 	 */
-	public long doListAllUsers(WebDriver driver) {
+	public long doListAllUsers(WebDriver driver) throws IOException {
+		//		long time;// = System.currentTimeMillis();
+		//		String link;// = QuoddyUserEmulator.baseUrl + QuoddyUserEmulator.appname+"/user/list";
+		//		//driver.get(link);
+		//		link=QuoddyUserEmulator.appname+"/user/list";
+		//		String page=driver.getPageSource();
+		//		WebElement el=driver.findElement (By.tagName(link));
+		//		time = System.currentTimeMillis();
+		//		el.click();
+		//		if (QuoddyUserEmulator.DEBUG) {
+		//			System.out.println("User "+user+" List all users process finished "+link);
+		//			//System.out.println(driver.getPageSource());	
+		//			System.out.println("Time to process:"+(System.currentTimeMillis()-time));
+		//		};
+		//		return time;
+		long time;
+		time = System.currentTimeMillis();
+		driver.navigate().to(QuoddyUserEmulator.baseUrl + "/quoddy/user/list");
+		if (QuoddyUserEmulator.getImages)
+			downloadImages(driver);
+		if (QuoddyUserEmulator.DEBUG) 
+			System.out.println("User "+user+" List all users process finished");
+		return time;
+	}
+
+	/**
+	 * @param driver - client browser
+	 * @return time - the time elapsed do fetch all elements of the new page (including redirects)
+	 * @throws IOException 
+	 */
+	public long doListAllMyFriends(WebDriver driver) throws IOException {
 //		long time;// = System.currentTimeMillis();
-//		String link;// = QuoddyUserEmulator.baseUrl + QuoddyUserEmulator.appname+"/user/list";
+//		//String link = QuoddyUserEmulator.baseUrl +QuoddyUserEmulator.appname+ "/user/listFriends";
 //		//driver.get(link);
-//		link=QuoddyUserEmulator.appname+"/user/list";
-//		String page=driver.getPageSource();
-//		WebElement el=driver.findElement (By.tagName(link));
+//		WebElement el = driver.findElement(By.partialLinkText("listFriends"));
 //		time = System.currentTimeMillis();
 //		el.click();
-//		if (QuoddyUserEmulator.DEBUG) {
-//			System.out.println("User "+user+" List all users process finished "+link);
-//			//System.out.println(driver.getPageSource());	
+//		if (QuoddyUserEmulator.getImages)
+//			downloadImages(driver);
+//		if (QuoddyUserEmulator.DEBUG){
+//			System.out.println("User "+user+" List all my friends process finished");
+//			//		System.out.println(driver.getPageSource());
 //			System.out.println("Time to process:"+(System.currentTimeMillis()-time));
-//		};
+//		}
 //		return time;
 		long time;
 		time = System.currentTimeMillis();
-        driver.navigate().to(QuoddyUserEmulator.baseUrl + "/quoddy/user/list");
-        if (QuoddyUserEmulator.DEBUG) 
-        	System.out.println("User "+user+" List all users process finished");
-        return time;
-	}
-
-	/**
-	 * @param driver - client browser
-	 * @return time - the time elapsed do fetch all elements of the new page (including redirects)
-	 */
-	public long doListAllMyFriends(WebDriver driver) {
-		long time;// = System.currentTimeMillis();
-		//String link = QuoddyUserEmulator.baseUrl +QuoddyUserEmulator.appname+ "/user/listFriends";
-		//driver.get(link);
-		WebElement el = driver.findElement(By.partialLinkText("listFriends"));
-		time = System.currentTimeMillis();
-		el.click();
-		if (QuoddyUserEmulator.DEBUG){
-			System.out.println("User "+user+" List all my friends process finished");
-			//		System.out.println(driver.getPageSource());
-			System.out.println("Time to process:"+(System.currentTimeMillis()-time));
-		}
+		String url = QuoddyUserEmulator.baseUrl +QuoddyUserEmulator.appname+ "/user/listFriends";
+		driver.navigate().to(url);
+		if (QuoddyUserEmulator.getImages)
+			downloadImages(driver);
+		if (QuoddyUserEmulator.DEBUG) 
+			System.out.println("User "+user+" List all users process finished");
 		return time;
 	}
 
 	/**
 	 * @param driver - client browser
 	 * @return time - the time elapsed do fetch all elements of the new page (including redirects)
+	 * @throws IOException 
 	 */
-	public long doListAllMyFollowers(WebDriver driver) {
-		long time;// = System.currentTimeMillis();
-		WebElement el = driver.findElement(By.partialLinkText("listFollowers"));
-		String link= el.getText();//QuoddyUserEmulator.baseUrl +QuoddyUserEmulator.appname+ "/user/listFollowers";
+	public long doListAllMyFollowers(WebDriver driver) throws IOException {
+//		long time;// = System.currentTimeMillis();
+//		WebElement el = driver.findElement(By.partialLinkText("listFollowers"));
+//		String link= el.getText();//QuoddyUserEmulator.baseUrl +QuoddyUserEmulator.appname+ "/user/listFollowers";
+//
+//		time = System.currentTimeMillis();
+//		el.click();
+//		if (QuoddyUserEmulator.getImages)
+//			downloadImages(driver);
+//		//driver.get(link);
+//		if (QuoddyUserEmulator.DEBUG){
+//			System.out.println("User "+user+" List all my followers process finished:"+link);
+//			System.out.println("Time to process:"+(System.currentTimeMillis()-time));
+//		}
+//		return time;
+		long time;
+		time = System.currentTimeMillis();
+		driver.navigate().to(QuoddyUserEmulator.baseUrl +QuoddyUserEmulator.appname+ "/user/listFollowers");
+		if (QuoddyUserEmulator.getImages)
+			downloadImages(driver);
+		if (QuoddyUserEmulator.DEBUG) 
+			System.out.println("User "+user+" List all users process finished");
+		return time;
 		
-		time = System.currentTimeMillis();
-		el.click();
-		//driver.get(link);
-		if (QuoddyUserEmulator.DEBUG){
-			System.out.println("User "+user+" List all my followers process finished:"+link);
-			System.out.println("Time to process:"+(System.currentTimeMillis()-time));
-		}
-		return time;
 	}
 
 	/**
 	 * @param driver - client browser
 	 * @return time - the time elapsed do fetch all elements of the new page (including redirects)
+	 * @throws IOException 
 	 */
-	public long doListUsersIFollow(WebDriver driver) {
-		long time;// = System.currentTimeMillis();
-		String str=	QuoddyUserEmulator.baseUrl +QuoddyUserEmulator.appname+ "/user/listIFollow";
-		WebElement el = driver.findElement(By.partialLinkText("listIFollow"));
+	public long doListUsersIFollow(WebDriver driver) throws IOException {
+//		long time;// = System.currentTimeMillis();
+//		String str=	QuoddyUserEmulator.baseUrl +QuoddyUserEmulator.appname+ "/user/listIFollow";
+//		WebElement el = driver.findElement(By.partialLinkText("listIFollow"));
+//		time = System.currentTimeMillis();
+//		el.click();
+//		if (QuoddyUserEmulator.getImages)
+//			downloadImages(driver);
+//		//driver.get(str);
+//		if (QuoddyUserEmulator.DEBUG){
+//			System.out.println("User "+user+" List people I follow process finished in "+str);
+//			System.out.println("Time to process:"+(System.currentTimeMillis()-time));
+//
+//		}
+//		return time;
+		long time;
 		time = System.currentTimeMillis();
-		el.click();
-		//driver.get(str);
-		if (QuoddyUserEmulator.DEBUG){
-			System.out.println("User "+user+" List people I follow process finished in "+str);
-			System.out.println("Time to process:"+(System.currentTimeMillis()-time));
-
-		}
+		driver.navigate().to(QuoddyUserEmulator.baseUrl +QuoddyUserEmulator.appname+ "/user/listIFollow");
+		if (QuoddyUserEmulator.getImages)
+			downloadImages(driver);
+		if (QuoddyUserEmulator.DEBUG) 
+			System.out.println("User "+user+" List all users process finished");
 		return time;
 	}
 
@@ -277,14 +330,15 @@ public class Transitions {
 	/**
 	 * @param driver - client browser
 	 * @return time - the time elapsed do fetch all elements of the new page (including redirects)
+	 * @throws IOException 
 	 */
-	public long doViewUsersProfile(WebDriver driver) throws ItemNotFoundException {
+	public long doViewUsersProfile(WebDriver driver) throws ItemNotFoundException, IOException {
 		long time;
 		String page = driver.getPageSource(); // read current page
 		String[] e;
 		String link;
 
-//		time=System.currentTimeMillis();
+		//		time=System.currentTimeMillis();
 		e = getMatchingLinks(page,"viewUser");
 		//time=System.currentTimeMillis()-time;
 		//System.out.println("time to find "+time);
@@ -302,6 +356,8 @@ public class Transitions {
 
 		time = System.currentTimeMillis();
 		driver.navigate().to(QuoddyUserEmulator.baseUrl+ link);
+		if (QuoddyUserEmulator.getImages)
+			downloadImages(driver);
 		if (QuoddyUserEmulator.DEBUG){
 			System.out.println("User " + user + " Let's go see a user. Go to "+ QuoddyUserEmulator.baseUrl + link);
 			System.out.println("Time to process:"+(System.currentTimeMillis()-time));
@@ -309,28 +365,30 @@ public class Transitions {
 		return time;
 	}
 
-		public long doUpdateStatus(WebDriver driver) {
-			long time;// = System.currentTimeMillis();
-			// generate string update test here
-			//driver.navigate().to(QuoddyUserEmulator.baseUrl +QuoddyUserEmulator.appname+ "/");
-			//driver.findElement(By.id("statusText")).clear();
-			driver.findElement(By.id("statusText")).sendKeys(getRandomStatusString());
-			WebElement el = driver.findElement(By.id("updateStatusSubmit"));
-			time = System.currentTimeMillis();
-			el.click();
-			// blocking
-			System.out.println("User "+user+" update process finished:"+el.getText() );
-			return time;
-		}
-//	public long doUpdateStatus(WebDriver driver) throws IOException,
-//	SAXException {
-//		long time = System.currentTimeMillis();
-//		String str = QuoddyUserEmulator.baseUrl+ QuoddyUserEmulator.appname	+ "/status/updateStatus?statusText=" + getRandomStatusString();
-//		// generate string update test here
-//		driver.navigate().to(str);
-//		System.out.println("User " + user + " update process finished");
-//		return time;
-//	}
+	public long doUpdateStatus(WebDriver driver) throws IOException {
+		long time;// = System.currentTimeMillis();
+		// generate string update test here
+		//driver.navigate().to(QuoddyUserEmulator.baseUrl +QuoddyUserEmulator.appname+ "/");
+		//driver.findElement(By.id("statusText")).clear();
+		driver.findElement(By.id("statusText")).sendKeys(getRandomStatusString());
+		WebElement el = driver.findElement(By.id("updateStatusSubmit"));
+		time = System.currentTimeMillis();
+		el.click();
+		// blocking
+		if (QuoddyUserEmulator.getImages)
+			downloadImages(driver);
+		System.out.println("User "+user+" update process finished:");
+		return time;
+	}
+	//	public long doUpdateStatus(WebDriver driver) throws IOException,
+	//	SAXException {
+	//		long time = System.currentTimeMillis();
+	//		String str = QuoddyUserEmulator.baseUrl+ QuoddyUserEmulator.appname	+ "/status/updateStatus?statusText=" + getRandomStatusString();
+	//		// generate string update test here
+	//		driver.navigate().to(str);
+	//		System.out.println("User " + user + " update process finished");
+	//		return time;
+	//	}
 
 	//	public long doFollowUser(WebDriver driver) throws ItemNotFoundException {
 	//		long time;
@@ -365,7 +423,7 @@ public class Transitions {
 	//		return time;
 	//	}
 
-	public long doFollowUser(WebDriver driver) throws ItemNotFoundException {
+	public long doFollowUser(WebDriver driver) throws ItemNotFoundException, IOException {
 		// QuoddyUserEmulator.baseUrl+"/quoddy/user/addToFollow?userId=testuser7
 		long time;
 		String page = driver.getPageSource(); // read current page
@@ -387,6 +445,8 @@ public class Transitions {
 		link = QuoddyUserEmulator.baseUrl+e[0];// there's only one friend to add
 		time = System.currentTimeMillis();
 		driver.navigate().to(link);
+		if (QuoddyUserEmulator.getImages)
+			downloadImages(driver);
 		if (QuoddyUserEmulator.DEBUG){
 			System.out.println("User "+user+" Let's add a new user. Go to "+link);
 		}
@@ -427,7 +487,7 @@ public class Transitions {
 	//		driver.navigate().to(addUserLink);
 	//		return time;
 	//	}
-	public long doAddNewFriend(WebDriver driver) throws ItemNotFoundException {
+	public long doAddNewFriend(WebDriver driver) throws ItemNotFoundException, IOException {
 		// QuoddyUserEmulator.baseUrl "/quoddy/user/addToFriends?userId=testuser7"
 		long time;
 		String page = driver.getPageSource(); // read current page
@@ -449,21 +509,25 @@ public class Transitions {
 		link = QuoddyUserEmulator.baseUrl+e[0];//only one user
 		time = System.currentTimeMillis();
 		driver.navigate().to(link);
+		if (QuoddyUserEmulator.getImages)
+			downloadImages(driver);
 		if (QuoddyUserEmulator.DEBUG){
 			System.out.println("User "+user+" Let's add a new user. Go to " + link);
 		}
 		return time;
 	}
 
-	public long doViewPendingFriendRequest(WebDriver driver) {
+	public long doViewPendingFriendRequest(WebDriver driver) throws IOException {
 		long time;
 		// go to pending requests page
 		String link=QuoddyUserEmulator.baseUrl+ QuoddyUserEmulator.appname+"/user/listOpenFriendRequests";
 		time = System.currentTimeMillis();
 		driver.navigate().to(link);
+		if (QuoddyUserEmulator.getImages)
+			downloadImages(driver);
 		if (QuoddyUserEmulator.DEBUG) {
 			System.out.println("User "+user+" Let's see pending requests. Go to " +link);
-			
+
 		}
 		return time;
 	}
@@ -502,8 +566,8 @@ public class Transitions {
 	//		driver.navigate().to(addUserLink);
 	//		return time;
 	//	}
-	
-	public long doConfirmFriend(WebDriver driver) throws ItemNotFoundException {
+
+	public long doConfirmFriend(WebDriver driver) throws ItemNotFoundException, IOException {
 		long time;
 		String page = driver.getPageSource(); // read current page
 		String[] e;
@@ -523,11 +587,13 @@ public class Transitions {
 			throw new ItemNotFoundException();
 		}
 
-		link = e[(number.nextInt(e.length))];
+		link = QuoddyUserEmulator.baseUrl +  e[(number.nextInt(e.length))];
 		// go on
 		// confirm the user
 		time = System.currentTimeMillis();
 		driver.navigate().to(link);
+		if (QuoddyUserEmulator.getImages)
+			downloadImages(driver);
 		if (QuoddyUserEmulator.DEBUG){
 			System.out.println("User "+user+" Let's confirm the user. Go to " + link);
 			//System.out.println("Time to process:"+(System.currentTimeMillis()-time));
@@ -537,18 +603,20 @@ public class Transitions {
 	/*
 	 * go to home page - it blocks until the page is fully loaded
 	 */
-	public long goHome(WebDriver driver) {
+	public long goHome(WebDriver driver) throws IOException {
 		long time;// = System.currentTimeMillis();
 		String link=QuoddyUserEmulator.baseUrl +QuoddyUserEmulator.appname+ "/";
 		time = System.currentTimeMillis();
 		driver.navigate().to(link);
+		if (QuoddyUserEmulator.getImages)
+			downloadImages(driver);
 		if (QuoddyUserEmulator.DEBUG){
 			System.out.println("User "+user+" Let's confirm the user. Go to " + link);
 		}
 		return time;
 	}
 
-	public long endOfSession(WebDriver driver) {
+	public long endOfSession(WebDriver driver) throws IOException {
 		return doLogout(driver);
 
 	}
@@ -574,15 +642,66 @@ public class Transitions {
 		resources.toArray(array);
 		return  array;
 	}
-	public String getRandomStatusString() {
-		return "Helloquoddythisismytest";
-	}
-	
+
+
 	public long resetToInitialPage(WebDriver driver){
 		long time;
 		String str=QuoddyUserEmulator.baseUrl + "/quoddy/login/index";
-		 time=System.currentTimeMillis();
-        driver.navigate().to(str);
-        return time;
+		time=System.currentTimeMillis();
+		driver.navigate().to(str);
+		return time;
+	}
+
+	public int downloadImages(WebDriver driver) throws IOException {
+		ArrayList<String> resources = new ArrayList<String>();
+		String pagesource = driver.getPageSource();
+		//System.out.println(pagesource);
+		String strtmp;
+		byte[] buffer = new byte[4096];
+		URL imageURL = null;
+		String str = "";
+		InputStream imageStream;
+		BufferedInputStream inImage;
+		// Look for any image to download
+		strtmp = "<img src=\"";
+		int indeximages = pagesource.indexOf(strtmp);
+		while (indeximages != -1) {
+			int startQuote = indeximages + strtmp.length(); 
+			int endQuote = pagesource.indexOf("\"", startQuote + 1);
+			//System.out.println("download this:"	+ pagesource.substring(startQuote, endQuote));
+			resources.add(pagesource.substring(startQuote, endQuote));
+			indeximages = pagesource.indexOf(strtmp, endQuote);
+		}
+		strtmp = "<img style=\"float:left;\" src=\"";
+		indeximages = pagesource.indexOf(strtmp);
+		while (indeximages != -1) {
+			int startQuote = indeximages + strtmp.length(); 
+			int endQuote = pagesource.indexOf("\"", startQuote + 1);
+			resources.add(pagesource.substring(startQuote, endQuote));
+			indeximages = pagesource.indexOf(strtmp, endQuote);
+		}
+
+		//let's start downloading the page
+
+		for (int i = 0; i < resources.size(); i++) {
+			str = QuoddyUserEmulator.baseUrl + resources.get(i);
+			//System.out.println("Downloading item:"+str);
+			try {
+				imageURL = new URL(str);
+				imageStream = imageURL.openStream();
+				inImage = new BufferedInputStream(imageStream, 4096);
+				while (inImage.read(buffer, 0, buffer.length) != -1)
+					; // Just download, skip data
+				inImage.close();
+				imageStream.close();
+			} catch (IOException ioe) {
+				System.err.println("Error while downloading image " + imageURL
+						+ " (" + ioe.getMessage() + ")<br>");
+			}
+		}
+		return 0;
+	}
+	public String getRandomStatusString() {
+		return "Hello quoddy this is my test!!!!";
 	}
 }

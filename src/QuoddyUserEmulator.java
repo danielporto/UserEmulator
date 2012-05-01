@@ -170,32 +170,54 @@ public class QuoddyUserEmulator {
 		long time;
 
 		try {
-			for (int i = 0; i < 1000; i++) {
 				testsession.state.resetToInitialPage(testsession.driver);
 				testsession.transitiontable.resetToInitialState();
-
-				// testsession.goNextState(0);// goHome(driver);
-				time = testsession.goNextState(1);
-				System.out.println("Time to process "
-						+ Transitions.stateToString[1] + " = "
-						+ (System.currentTimeMillis() - time)); // doLogin(driver)
-				// testsession.goNextState(0);// goHome(driver);
-				// testsession.goNextState(2);//doUpdateStatus(driver);
-				// testsession.goNextState(3);//doListMyUpdates(driver);
-				// time = testsession.goNextState(4);
-				// System.out.println("Time to process "
-				// +Transitions.stateToString[4] + " = " +
-				// (System.currentTimeMillis() -
-				// time));//doListAllUsers(driver);
-			}
-			// testsession.goNextState(5);//doViewUsersProfile(driver);
-			// testsession.goNextState(6);//doAddNewFriend(driver);
-			// testsession.goNextState(7);//doViewPendingFriendRequest(driver);
-			// testsession.goNextState(8);//doConfirmFriend(driver);
-			// testsession.goNextState(9);//doListAllMyFriends(driver);
-			// testsession.goNextState(10);//doFollowUser(driver);
-			// testsession.goNextState(11);//doListUsersIFollow(driver);
-			// testsession.goNextState(12);//doListAllMyFollowers(driver);
+				time = testsession.goNextState(1);/*login*/	
+				System.out.println("Time to process "+ Transitions.stateToString[1] + " = "	+ (System.currentTimeMillis() - time));
+				
+				time = testsession.goNextState(0);/*goHome(driver);*/
+				System.out.println("Time to process "+ Transitions.stateToString[0] + " = "	+ (System.currentTimeMillis() - time));
+				//for(int i=0; i<1000;i++){
+					//time = testsession.goNextState(2);//doUpdateStatus(driver);
+					//System.out.println("Time to process "+ Transitions.stateToString[2] + " = "	+ (System.currentTimeMillis() - time));
+				//}
+				
+				time = testsession.goNextState(3); //doListMyUpdates(driver);
+				System.out.println("Time to process "+ Transitions.stateToString[3] + " = "	+ (System.currentTimeMillis() - time));
+				
+				time = testsession.goNextState(4);
+				System.out.println("Time to process "+Transitions.stateToString[4] + " = " + (System.currentTimeMillis() - time));//doListAllUsers(driver);
+			
+				time = testsession.goNextState(5);//doViewUsersProfile(driver);
+				System.out.println("Time to process "+Transitions.stateToString[5] + " = " + (System.currentTimeMillis() - time));
+				
+				time = testsession.goNextState(6);//doAddNewFriend(driver);
+				System.out.println("Time to process "+Transitions.stateToString[6] + " = " + (System.currentTimeMillis() - time));
+				
+			    time = testsession.goNextState(7);//doViewPendingFriendRequest(driver);
+				System.out.println("Time to process "+Transitions.stateToString[7] + " = " + (System.currentTimeMillis() - time));
+				
+				
+				//time = testsession.goNextState(8);//doConfirmFriend(driver);
+				//System.out.println("Time to process "+Transitions.stateToString[8] + " = " + (System.currentTimeMillis() - time));
+			
+			    time = testsession.goNextState(9);//doListAllMyFriends(driver);
+				System.out.println("Time to process "+Transitions.stateToString[9] + " = " + (System.currentTimeMillis() - time));
+				
+				time = testsession.goNextState(5);//doViewUsersProfile(driver); //repeat due the doFollow
+				System.out.println("Time to process "+Transitions.stateToString[5] + " = " + (System.currentTimeMillis() - time));
+				time = testsession.goNextState(10);//doFollowUser(driver);
+				System.out.println("Time to process "+Transitions.stateToString[10] + " = " + (System.currentTimeMillis() - time));
+				
+			
+				time = testsession.goNextState(11);//doListUsersIFollow(driver);
+				System.out.println("Time to process "+Transitions.stateToString[11] + " = " + (System.currentTimeMillis() - time));
+				
+				
+				time = testsession.goNextState(12);//doListAllMyFollowers(driver);
+				System.out.println("Time to process "+Transitions.stateToString[12] + " = " + (System.currentTimeMillis() - time));
+				//System.out.println(testsession.driver.getPageSource());
+				
 			// testsession.goNextState(13);//endOfSession(driver);
 			// for(int i=0; i<1000;i++)
 			// avg+=testsession.goNextState(14);//testing
