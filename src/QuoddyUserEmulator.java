@@ -11,10 +11,10 @@ import javax.xml.stream.events.StartDocument;
 import org.xml.sax.SAXException;
 
 public class QuoddyUserEmulator {
-	public static String baseUrl = "http://swsao5001.mpi-sws.org:8080";
-	public static String appname = "/quoddy";
+	public static String baseUrl = "http://139.19.158.4:8080";// "http://www.yahoo.com";//"http://wks-40-12.mpi-sws.org:8080";//"http://swsao5001.mpi-sws.org:8080";
+	public static String appname = "/rubis_servlets";//"/quoddy2-0.1";//"/quoddy";
 			//"http://swsao5001.mpi-sws.org:8080/quoddy2-0.1");
-	public static int numberOfClients = 20;
+	public static int numberOfClients = 1;
 	public static final String userPrefix = "user";
 	public static final String userPassword = "secret";
 	public static final int numberOfExistingUsers = 1000;
@@ -29,14 +29,14 @@ public class QuoddyUserEmulator {
 	public static final boolean DEBUG = true;
 	public static int dcId=0;
 	public static int userId=0;
-	public static boolean getImages=false;
+	public static boolean getImages=true;
 
 	public static void main(String[] args) {
 //		if (args.length != 7) {
 //			System.out.println("QuoddyEmulator dcId userId webproxyHost userNum warmUpTime, simulationTime, tearDownTime");
 //			System.exit(-1);
 //		}
-		//test();
+		test();
 		//dcId = Integer.parseInt(args[0]);
 		//userId = Integer.parseInt(args[1]);
 		//baseUrl = new String(args[2]);
@@ -45,7 +45,7 @@ public class QuoddyUserEmulator {
 //		warmUpTime = Integer.parseInt(args[4]);
 //		simulationTime = Integer.parseInt(args[5]);
 //		tearDownTime = Integer.parseInt(args[6]);
-		run();
+		//run();
 	}
 
 	public static void run() {
@@ -157,14 +157,15 @@ public class QuoddyUserEmulator {
 		testsession.transitiontable.resetToInitialState();
 		System.out.println("Test interaction 1");
 		start = System.currentTimeMillis();
+		double avg=0;
 		try{
 		//testsession.goNextState(0);// goHome(driver);
-		 testsession.goNextState(1);//doLogin(driver)
-		 testsession.goNextState(0);// goHome(driver);
+		 //testsession.goNextState(1);//doLogin(driver)
+		 //testsession.goNextState(0);// goHome(driver);
 //		 testsession.goNextState(2);//doUpdateStatus(driver);
 //		 testsession.goNextState(3);//doListMyUpdates(driver);
-		 testsession.goNextState(4);//doListAllUsers(driver);
-		 testsession.goNextState(5);//doViewUsersProfile(driver);
+		 //testsession.goNextState(4);//doListAllUsers(driver);
+		 //testsession.goNextState(5);//doViewUsersProfile(driver);
 //		 testsession.goNextState(6);//doAddNewFriend(driver);
 //		 testsession.goNextState(7);//doViewPendingFriendRequest(driver);
 //		 testsession.goNextState(8);//doConfirmFriend(driver);
@@ -173,6 +174,8 @@ public class QuoddyUserEmulator {
 //		 testsession.goNextState(11);//doListUsersIFollow(driver);
 //		 testsession.goNextState(12);//doListAllMyFollowers(driver);
 //		 testsession.goNextState(13);//endOfSession(driver);
+		 for(int i=0; i<1000;i++) avg+=testsession.goNextState(14);//testing
+		 System.out.println("Average="+avg/1000);
 		}catch(ItemNotFoundException e){
 			e.printStackTrace();
 		} catch (IOException e) {

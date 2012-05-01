@@ -31,12 +31,26 @@ public class Transitions2 {
 	public static final int doListUsersIFollow = 11;
 	public static final int doListAllMyFollowers = 12;
 	public static final int endOfSession = 13; // must be the last one aways!!!
+	public static final int test = 14;
 
 	Random number;
 
 	public Transitions2(String user) {
 		this.user = user;// only used to avoid get transitions with same user
 		number = new Random();
+	}
+
+	public long doTest(WebConversation driver) throws IOException, SAXException {
+		long time;
+		String url = QuoddyUserEmulator.baseUrl+QuoddyUserEmulator.appname;
+		//System.out.println("URL:" + url);
+		time = System.currentTimeMillis();
+		WebResponse resp = driver.getResponse(url);
+		time = System.currentTimeMillis() - time;
+		if (QuoddyUserEmulator.getImages)	downloadImages(driver);
+		System.out.println("User " + user + " Test process finished Latency:" + time);
+		//System.out.println(resp.getText());
+		return time;
 	}
 
 	public long doLogin(WebConversation driver) throws IOException,
@@ -189,7 +203,8 @@ public class Transitions2 {
 		time = System.currentTimeMillis();
 		WebResponse resp = driver.getResponse(QuoddyUserEmulator.baseUrl
 				+ link.getURLString());
-		if (QuoddyUserEmulator.getImages) downloadImages(driver);
+		if (QuoddyUserEmulator.getImages)
+			downloadImages(driver);
 		// System.out.println(driver.getCurrentPage().getText());
 		return time;
 	}
@@ -333,21 +348,21 @@ public class Transitions2 {
 
 	}
 
-	public int downloadImages(WebConversation driver) throws SAXException, IOException {
-		WebImage []images = driver.getCurrentPage().getImages();
+	public int downloadImages(WebConversation driver) throws SAXException,
+			IOException {
+		WebImage[] images = driver.getCurrentPage().getImages();
 
 		byte[] buffer = new byte[4096];
 		URL imageURL = null;
 		String str = "";
 
-		
-		if(images==null)
+		if (images == null)
 			return 0;
 		InputStream imageStream;
 		BufferedInputStream inImage;
-		for(int i=0; i< images.length;i++){
-			str= QuoddyUserEmulator.baseUrl+ images[i].getSource();
-			//System.out.println("Downloading item:"+str);
+		for (int i = 0; i < images.length; i++) {
+			str = QuoddyUserEmulator.baseUrl + images[i].getSource();
+			// System.out.println("Downloading item:"+str);
 			try {
 				imageURL = new URL(str);
 				imageStream = imageURL.openStream();

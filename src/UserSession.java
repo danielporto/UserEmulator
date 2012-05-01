@@ -142,6 +142,8 @@ public class UserSession extends Thread {
 	  case Transitions.doListUsersIFollow: return this.state.doListUsersIFollow(driver);
 	  case Transitions.doListAllMyFollowers: return this.state.doListAllMyFollowers(driver);
 	  case Transitions.endOfSession: return this.state.endOfSession(driver);
+	  case Transitions.test: return this.state.doTest(driver);
+	  
 	  }
 	  return System.currentTimeMillis();
  }
