@@ -14,7 +14,7 @@ public class QuoddyUserEmulator {
 	public static String baseUrl = "http://localhost:8080";
 	public static String appname = "/quoddy";// "/rubis_servlets";//"/quoddy2-0.1";//
 	// "http://swsao5001.mpi-sws.org:8080/quoddy2-0.1");
-	public static int numberOfClients = 1;
+	public static int numberOfClients = 5;
 	public static final String userPrefix = "user";
 	public static final String userPassword = "secret";
 	public static final int numberOfExistingUsers = 1000;
@@ -33,21 +33,21 @@ public class QuoddyUserEmulator {
 	public static boolean getImages = true;
 
 	public static void main(String[] args) {
-		// if (args.length != 7) {
-		// System.out.println("QuoddyEmulator dcId userId webproxyHost userNum warmUpTime, simulationTime, tearDownTime");
-		// System.exit(-1);
-		// }
-		test();
-		// dcId = Integer.parseInt(args[0]);
-		// userId = Integer.parseInt(args[1]);
-		// baseUrl = new String(args[2]);
-		// System.out.println("I am a user at dc " + dcId + " and my id is " +
-		// userId + " my proxy is " + baseUrl);
-		// numberOfClients = Integer.parseInt(args[3]);
-		// warmUpTime = Integer.parseInt(args[4]);
-		// simulationTime = Integer.parseInt(args[5]);
-		// tearDownTime = Integer.parseInt(args[6]);
-		// run();
+		 if (args.length != 7) {
+		 System.out.println("QuoddyEmulator dcId userId webproxyHost userNum warmUpTime, simulationTime, tearDownTime");
+		 System.exit(-1);
+		 }
+		//test();
+		 dcId = Integer.parseInt(args[0]);
+		 userId = Integer.parseInt(args[1]);
+		 baseUrl = new String(args[2]);
+		 System.out.println("I am a user at dc " + dcId + " and my id is " +
+		 userId + " my proxy is " + baseUrl+appname);
+		 numberOfClients = Integer.parseInt(args[3]);
+		 warmUpTime = Integer.parseInt(args[4]);
+		 simulationTime = Integer.parseInt(args[5]);
+		 tearDownTime = Integer.parseInt(args[6]);
+		run();
 	}
 
 	public static void run() {
