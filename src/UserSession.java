@@ -39,6 +39,7 @@ import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import com.gargoylesoftware.htmlunit.SilentCssErrorHandler;
 import com.meterware.httpunit.HttpUnitOptions;
 import com.meterware.httpunit.WebConversation;
+import com.sun.java.swing.plaf.gtk.GTKConstants.StateType;
 
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.xml.sax.SAXException;
@@ -66,9 +67,9 @@ public class UserSession extends Thread {
 	// current session
 	private Stats stats; // Statistics to collect
 	// errors, time, ...
-	//private WebDriver driver; // webbrowser
-	WebConversation driver;
-	Transitions2 state;
+	protected WebDriver driver; // webbrowser
+	//WebConversation driver;
+	Transitions state;
 
 	/**
 	 * Creates a new <code>UserSession</code> instance.
@@ -86,16 +87,18 @@ public class UserSession extends Thread {
 		super(thread_label+id);
 		userId=id; //thread id not exactly the user in the session
 		stats = statistics;
-		driver = new WebConversation();
-		HttpUnitOptions.setScriptingEnabled(false);
+		//driver = new WebConversation();
 		
-		//driver = new HtmlUnitDriver();
+		
+		HttpUnitOptions.setScriptingEnabled(false);
+		driver = new HtmlUnitDriver(false);
 		//driver = new FirefoxDriver();
-		//driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(1, TimeUnit.MICROSECONDS );
+		
 		
 		
 		password=QuoddyUserEmulator.userPassword;
-		state = new Transitions2(QuoddyUserEmulator.userPrefix+rand.nextInt(QuoddyUserEmulator.numberOfClients) ); //current username
+		state = new Transitions(QuoddyUserEmulator.userPrefix+rand.nextInt(QuoddyUserEmulator.numberOfClients) ); //current username
 		
 		transitiontable = new TransitionTable(QuoddyUserEmulator.numberOfStates-1,	QuoddyUserEmulator.numberOfStates, 
 				statistics,QuoddyUserEmulator.useThinkTime);
@@ -179,7 +182,7 @@ public class UserSession extends Thread {
 			System.out.println("Thread " + this.getName()+ ": Starting a new user session for " + username);
 			startSession = System.currentTimeMillis();
 			// Start from Home Page -- this transitions are not count in the evaluation!!!!
-		
+			this.state.resetToInitialPage(driver);
 			transitiontable.resetToInitialState();
 			next = transitiontable.getCurrentState();
 			/*
@@ -189,6 +192,7 @@ public class UserSession extends Thread {
 			 * */
 			while (nbOfTransitions > 0 && !transitiontable.isEndOfSession() && QuoddyUserEmulator.totalSimulationTime > System.currentTimeMillis()) {
 				try{
+				System.out.println("User "+username+" is going from "+Transitions.stateToString[transitiontable.getCurrentState()]+" to "+Transitions.stateToString[next]);
 				time = goNextState(next); //get the time before the interaction
 				}
 				catch(ItemNotFoundException it){
@@ -203,7 +207,7 @@ public class UserSession extends Thread {
 				}
 				stats.updateTime(next, System.currentTimeMillis() - time);
 				next = transitiontable.nextState();
-				//System.out.println("moving to state:"+next);
+				System.out.println("moving to state:"+next);
 				nbOfTransitions--;
 			}
 			

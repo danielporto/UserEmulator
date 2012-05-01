@@ -32,7 +32,10 @@ public class Transitions2 {
 	public static final int doListAllMyFollowers = 12;
 	public static final int endOfSession = 13; // must be the last one aways!!!
 	public static final int test = 14;
-
+	public static final String [] stateToString = {"goHome", "doLogin","doUpdateStatus", "doListMyUpdates",
+		"doListAllUsers","doViewUsersProfile", "doAddNewFriend", "doViewPendingFriendRequest",
+		"doConfirmFriend","doListAllMyFriends","doFollowUser",
+		"doListUsersIFollow","doListAllMyFollowers","endOfSession","test"};
 	Random number;
 
 	public Transitions2(String user) {
@@ -222,10 +225,6 @@ public class Transitions2 {
 		return time;
 	}
 
-	public String getRandomStatusString() {
-		return "Hello quoddy this is my test!!!!";
-	}
-
 	public long doFollowUser(WebConversation driver)
 			throws ItemNotFoundException, SAXException, IOException {
 		long time;
@@ -377,5 +376,8 @@ public class Transitions2 {
 			}
 		}
 		return 0;
+	}
+	public String getRandomStatusString() {
+		return "Hello quoddy this is my test!!!!";
 	}
 }

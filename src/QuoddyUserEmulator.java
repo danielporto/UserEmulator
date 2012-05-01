@@ -11,45 +11,48 @@ import javax.xml.stream.events.StartDocument;
 import org.xml.sax.SAXException;
 
 public class QuoddyUserEmulator {
-	public static String baseUrl = "http://139.19.158.4:8080";// "http://www.yahoo.com";//"http://wks-40-12.mpi-sws.org:8080";//"http://swsao5001.mpi-sws.org:8080";
-	public static String appname = "/rubis_servlets";//"/quoddy2-0.1";//"/quoddy";
-			//"http://swsao5001.mpi-sws.org:8080/quoddy2-0.1");
+	public static String baseUrl = "http://localhost:8080";
+	public static String appname = "/quoddy";// "/rubis_servlets";//"/quoddy2-0.1";//
+	// "http://swsao5001.mpi-sws.org:8080/quoddy2-0.1");
 	public static int numberOfClients = 1;
 	public static final String userPrefix = "user";
 	public static final String userPassword = "secret";
 	public static final int numberOfExistingUsers = 1000;
-	public static final int numberOfStates = 14;//check Transitions class 
-	public static int warmUpTime = 1*60000;
-	public static int simulationTime = 1*60000;
-	public static int tearDownTime = 1*60000;
+	public static final int numberOfStates = 14;// check Transitions class
+	public static int warmUpTime = 1 * 60000;
+	public static int simulationTime = 1 * 60000;
+	public static int tearDownTime = 1 * 60000;
 	public static final String transitionTable = "default_transitions.csv";
 	public static final int maxTransitionsPerSession = 100;
 	public static long totalSimulationTime = 0;
 	public static final boolean useThinkTime = false;
-	public static final boolean DEBUG = true;
-	public static int dcId=0;
-	public static int userId=0;
-	public static boolean getImages=true;
+	public static final boolean DEBUG = false;
+	public static final boolean DEBUG2 = true;
+	public static int dcId = 0;
+	public static int userId = 0;
+	public static boolean getImages = true;
 
 	public static void main(String[] args) {
-//		if (args.length != 7) {
-//			System.out.println("QuoddyEmulator dcId userId webproxyHost userNum warmUpTime, simulationTime, tearDownTime");
-//			System.exit(-1);
-//		}
+		// if (args.length != 7) {
+		// System.out.println("QuoddyEmulator dcId userId webproxyHost userNum warmUpTime, simulationTime, tearDownTime");
+		// System.exit(-1);
+		// }
 		test();
-		//dcId = Integer.parseInt(args[0]);
-		//userId = Integer.parseInt(args[1]);
-		//baseUrl = new String(args[2]);
-	//	System.out.println("I am a user at dc " + dcId + " and my id is " + userId + " my proxy is " + baseUrl);
-		//numberOfClients = Integer.parseInt(args[3]);
-//		warmUpTime = Integer.parseInt(args[4]);
-//		simulationTime = Integer.parseInt(args[5]);
-//		tearDownTime = Integer.parseInt(args[6]);
-		//run();
+		// dcId = Integer.parseInt(args[0]);
+		// userId = Integer.parseInt(args[1]);
+		// baseUrl = new String(args[2]);
+		// System.out.println("I am a user at dc " + dcId + " and my id is " +
+		// userId + " my proxy is " + baseUrl);
+		// numberOfClients = Integer.parseInt(args[3]);
+		// warmUpTime = Integer.parseInt(args[4]);
+		// simulationTime = Integer.parseInt(args[5]);
+		// tearDownTime = Integer.parseInt(args[6]);
+		// run();
 	}
 
 	public static void run() {
-		totalSimulationTime = System.currentTimeMillis() + warmUpTime + simulationTime	+ tearDownTime;
+		totalSimulationTime = System.currentTimeMillis() + warmUpTime
+				+ simulationTime + tearDownTime;
 		GregorianCalendar startDate;
 		GregorianCalendar endDate;
 		GregorianCalendar startWarmUp;
@@ -62,7 +65,7 @@ public class QuoddyUserEmulator {
 		startDate = new GregorianCalendar();
 		String reportDir = "";
 		String tmpDir = "/tmp/";
-		
+
 		System.out
 				.println("Quoddy client emulator - (C) Max Planck Institute for Software System 2012\n");
 		reportDir = "benchmark/quoddy_dcId" + dcId + "_userId_" + userId + "_"
@@ -130,14 +133,20 @@ public class QuoddyUserEmulator {
 		// Prepare the output data
 		PrintStream outputStream;
 		try {
-			outputStream = new PrintStream(new FileOutputStream(reportDir+ "result.txt"));
+			outputStream = new PrintStream(new FileOutputStream(reportDir
+					+ "result.txt"));
 
-			
-			simulationStats.display_histogram(outputStream,"Runtime session Histogram");
+			simulationStats.display_histogram(outputStream,
+					"Runtime session Histogram");
 			System.setOut(outputStream);
-			warmUpStats.display_stats(outputStream,"Warm up",TimeManagement.diffTimeInMs(startWarmUp, endWarmUp), false);
-			simulationStats.display_stats(outputStream,"Runtime session",TimeManagement.diffTimeInMs(startSession, endSession),false);
-			tearDownStats.display_stats(outputStream,"Tear down",TimeManagement.diffTimeInMs(startTearDown, endTearDown),false);
+			warmUpStats.display_stats(outputStream, "Warm up",
+					TimeManagement.diffTimeInMs(startWarmUp, endWarmUp), false);
+			simulationStats.display_stats(outputStream, "Runtime session",
+					TimeManagement.diffTimeInMs(startSession, endSession),
+					false);
+			tearDownStats.display_stats(outputStream, "Tear down",
+					TimeManagement.diffTimeInMs(startTearDown, endTearDown),
+					false);
 			printGnuPlotFile(outputStream, simulationStats, baseUrl);
 		} catch (Exception e) {
 			System.err.println("Problem generating gnuplot file");
@@ -153,30 +162,45 @@ public class QuoddyUserEmulator {
 		long start;
 
 		Stats stats = new Stats(numberOfStates);
-		UserSession testsession = new UserSession("TestUserSession ", 1, stats);
-		testsession.transitiontable.resetToInitialState();
+		UserSession testsession = new UserSession("user", 1, stats);
+
 		System.out.println("Test interaction 1");
 		start = System.currentTimeMillis();
-		double avg=0;
-		try{
-		//testsession.goNextState(0);// goHome(driver);
-		 //testsession.goNextState(1);//doLogin(driver)
-		 //testsession.goNextState(0);// goHome(driver);
-//		 testsession.goNextState(2);//doUpdateStatus(driver);
-//		 testsession.goNextState(3);//doListMyUpdates(driver);
-		 //testsession.goNextState(4);//doListAllUsers(driver);
-		 //testsession.goNextState(5);//doViewUsersProfile(driver);
-//		 testsession.goNextState(6);//doAddNewFriend(driver);
-//		 testsession.goNextState(7);//doViewPendingFriendRequest(driver);
-//		 testsession.goNextState(8);//doConfirmFriend(driver);
-//		 testsession.goNextState(9);//doListAllMyFriends(driver);
-//		 testsession.goNextState(10);//doFollowUser(driver);
-//		 testsession.goNextState(11);//doListUsersIFollow(driver);
-//		 testsession.goNextState(12);//doListAllMyFollowers(driver);
-//		 testsession.goNextState(13);//endOfSession(driver);
-		 for(int i=0; i<1000;i++) avg+=testsession.goNextState(14);//testing
-		 System.out.println("Average="+avg/1000);
-		}catch(ItemNotFoundException e){
+		double avg = 0;
+		long time;
+
+		try {
+			for (int i = 0; i < 1000; i++) {
+				testsession.state.resetToInitialPage(testsession.driver);
+				testsession.transitiontable.resetToInitialState();
+
+				// testsession.goNextState(0);// goHome(driver);
+				time = testsession.goNextState(1);
+				System.out.println("Time to process "
+						+ Transitions.stateToString[1] + " = "
+						+ (System.currentTimeMillis() - time)); // doLogin(driver)
+				// testsession.goNextState(0);// goHome(driver);
+				// testsession.goNextState(2);//doUpdateStatus(driver);
+				// testsession.goNextState(3);//doListMyUpdates(driver);
+				// time = testsession.goNextState(4);
+				// System.out.println("Time to process "
+				// +Transitions.stateToString[4] + " = " +
+				// (System.currentTimeMillis() -
+				// time));//doListAllUsers(driver);
+			}
+			// testsession.goNextState(5);//doViewUsersProfile(driver);
+			// testsession.goNextState(6);//doAddNewFriend(driver);
+			// testsession.goNextState(7);//doViewPendingFriendRequest(driver);
+			// testsession.goNextState(8);//doConfirmFriend(driver);
+			// testsession.goNextState(9);//doListAllMyFriends(driver);
+			// testsession.goNextState(10);//doFollowUser(driver);
+			// testsession.goNextState(11);//doListUsersIFollow(driver);
+			// testsession.goNextState(12);//doListAllMyFollowers(driver);
+			// testsession.goNextState(13);//endOfSession(driver);
+			// for(int i=0; i<1000;i++)
+			// avg+=testsession.goNextState(14);//testing
+			// System.out.println("Average="+avg/1000);
+		} catch (ItemNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
