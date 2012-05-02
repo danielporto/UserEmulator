@@ -93,7 +93,7 @@ public class Transitions {
 		el.click();
 		if (QuoddyUserEmulator.getResources)
 			downloadAllPageResources(driver,QuoddyUserEmulator.getImages,QuoddyUserEmulator.getCss,QuoddyUserEmulator.getJavascript);
-		System.out.println("User "+user+" Login process finished");
+		//System.out.println("User "+user+" Login process finished");
 		return time;
 	}
 
@@ -377,7 +377,7 @@ public class Transitions {
 		// blocking
 		if (QuoddyUserEmulator.getResources)
 			downloadAllPageResources(driver,QuoddyUserEmulator.getImages,QuoddyUserEmulator.getCss,QuoddyUserEmulator.getJavascript);
-		System.out.println("User "+user+" update process finished:");
+		//System.out.println("User "+user+" update process finished:");
 		return time;
 	}
 	//	public long doUpdateStatus(WebDriver driver) throws IOException,

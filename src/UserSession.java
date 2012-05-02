@@ -91,9 +91,14 @@ public class UserSession extends Thread {
 		
 		
 		HttpUnitOptions.setScriptingEnabled(false);
+		HttpUnitOptions.setAutoRefresh(false);
+		HttpUnitOptions.setExceptionsThrownOnScriptError(false);
+		HttpUnitOptions.setParserWarningsEnabled(false);
+		HttpUnitOptions.setLoggingHttpHeaders(false);
 		driver = new HtmlUnitDriver(false);
 		//driver = new FirefoxDriver();
 		driver.manage().timeouts().implicitlyWait(1, TimeUnit.MICROSECONDS );
+		
 		
 		
 		
@@ -192,7 +197,7 @@ public class UserSession extends Thread {
 			 * */
 			while (nbOfTransitions > 0 && !transitiontable.isEndOfSession() && QuoddyUserEmulator.totalSimulationTime > System.currentTimeMillis()) {
 				try{
-				System.out.println("User "+username+" is going from "+Transitions.stateToString[transitiontable.getCurrentState()]+" to "+Transitions.stateToString[next]);
+				System.out.println("User "+username+" is going to "+Transitions.stateToString[transitiontable.getCurrentState()]);
 				time = goNextState(next); //get the time before the interaction
 				}
 				catch(ItemNotFoundException it){
