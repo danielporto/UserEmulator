@@ -299,6 +299,8 @@ public class Stats
     int counts = 0;
     int errors = 0;
     long time = 0;
+    double countperc=0;
+    double countpercs=0;
     String percentOfTotal="";
     String countss="";
     String errorss="";
@@ -328,10 +330,14 @@ public class Stats
       if ((exclude0Stat && count[i] != 0) || (!exclude0Stat))
       {
         //LINE NAME
-        if ((counts > 0) && (count[i] > 0))
-          percentOfTotal= (100*count[i]/counts+" %");
+        if ((counts > 0) && (count[i] > 0)){
+        	countperc=(100*count[i])/(double)counts;
+        	countpercs+=countperc;
+          percentOfTotal= (df.format(countperc)+" %");
+          }
         else
         	percentOfTotal= ("0 %");
+        	
 
         //COUNT
         countss=count[i]+"";
@@ -374,7 +380,7 @@ public class Stats
 //      out.println(time/counts+" ms</B></div>");
       
         out.printf("%-27s | %-10s | %-7s | %-7s | %-10s | %-10s | %-10s | %-10s | %-10s ms | %-10s \n",
-    		  "Totals", "100 %", counts+"",errors+"","-","-",time/(counts+errors) +" ms" ,"","","");
+    		  "Totals", df.format(countpercs)+"%", counts+"",errors+"","-","-",time/(counts+errors) +" ms" ,"","","");
       // Display stats about sessions
       out.println("Average throughput "+1000*counts/sessionTime+" req/s");
       out.println("Completed sessions "+nbSessions);

@@ -27,7 +27,7 @@ public class QuoddyUserEmulator {
 	public static long totalSimulationTime = 0;
 	public static final boolean useThinkTime = false;
 	public static final boolean DEBUG = false;
-	public static final boolean DEBUG2 = true;
+	public static final boolean DEBUG2 = false;
 	public static int dcId = 0;
 	public static int userId = 0;
 	public static boolean getResources = true; //disable all resources download
