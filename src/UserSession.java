@@ -197,6 +197,7 @@ public class UserSession extends Thread {
 			 * */
 			while (nbOfTransitions > 0 && !transitiontable.isEndOfSession() && QuoddyUserEmulator.totalSimulationTime > System.currentTimeMillis()) {
 				try{
+				if(QuoddyUserEmulator.DEBUG)	
 				System.out.println("User "+username+" is going to "+Transitions.stateToString[transitiontable.getCurrentState()]);
 				time = goNextState(next); //get the time before the interaction
 				}
@@ -212,7 +213,6 @@ public class UserSession extends Thread {
 				}
 				stats.updateTime(next, System.currentTimeMillis() - time);
 				next = transitiontable.nextState();
-				System.out.println("moving to state:"+next);
 				nbOfTransitions--;
 			}
 			
