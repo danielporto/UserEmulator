@@ -30,17 +30,17 @@ public class QuoddyUserEmulator {
 	public static final boolean DEBUG2 = true;
 	public static int dcId = 0;
 	public static int userId = 0;
-	public static final boolean getResources = true; //disable all resources download
+	public static boolean getResources = true; //disable all resources download
 	public static final boolean getImages = true; //fine grained resource download
 	public static final boolean getCss = true;
 	public static final boolean getJavascript = true;
 
 	public static void main(String[] args) {
-		 if (args.length != 7) {
-		 System.out.println("QuoddyEmulator dcId userId webproxyHost userNum warmUpTime, simulationTime, tearDownTime");
+		//test();
+		 if (args.length < 7) {
+		 System.out.println("QuoddyEmulator dcId userId webproxyHost userNum warmUpTime, simulationTime, tearDownTime [download_resources]");
 		 System.exit(-1);
 		 }
-		//test();
 		 dcId = Integer.parseInt(args[0]);
 		 userId = Integer.parseInt(args[1]);
 		 baseUrl = new String(args[2]);
@@ -50,7 +50,12 @@ public class QuoddyUserEmulator {
 		 warmUpTime = Integer.parseInt(args[4]);
 		 simulationTime = Integer.parseInt(args[5]);
 		 tearDownTime = Integer.parseInt(args[6]);
-		run();
+		 if (args.length == 8){
+			 getResources = Boolean.parseBoolean(args[7]);
+		 }
+		 if(getResources) System.out.println("All the page resources is going to be downloaded");
+		 else System.out.println("Ignoring all css, images and javascript files");
+		 run();
 	}
 
 	public static void run() {
