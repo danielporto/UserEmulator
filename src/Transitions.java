@@ -56,8 +56,8 @@ public class Transitions {
 		//System.out.println("URL:" + url);
 		time = System.currentTimeMillis();
 		driver.navigate().to(url);
-		if (QuoddyUserEmulator.getImages)
-			downloadImages(driver);
+		if (QuoddyUserEmulator.getResources)
+			downloadAllPageResources(driver,QuoddyUserEmulator.getImages,QuoddyUserEmulator.getCss,QuoddyUserEmulator.getJavascript);
 		time = System.currentTimeMillis() - time;
 		System.out.println("User " + user + " Test process finished Latency:" + time);
 		//System.out.println(resp.getText());
@@ -91,8 +91,8 @@ public class Transitions {
 		WebElement el = driver.findElement(By.id("login"));
 		time=System.currentTimeMillis();
 		el.click();
-		if (QuoddyUserEmulator.getImages)
-			downloadImages(driver);
+		if (QuoddyUserEmulator.getResources)
+			downloadAllPageResources(driver,QuoddyUserEmulator.getImages,QuoddyUserEmulator.getCss,QuoddyUserEmulator.getJavascript);
 		System.out.println("User "+user+" Login process finished");
 		return time;
 	}
@@ -105,8 +105,8 @@ public class Transitions {
 	public long doLogout(WebDriver driver) throws IOException {
 		long time = System.currentTimeMillis();
 		driver.navigate().to(QuoddyUserEmulator.baseUrl +QuoddyUserEmulator.appname+ "/login/logout");
-		if (QuoddyUserEmulator.getImages)
-			downloadImages(driver);
+		if (QuoddyUserEmulator.getResources)
+			downloadAllPageResources(driver,QuoddyUserEmulator.getImages,QuoddyUserEmulator.getCss,QuoddyUserEmulator.getJavascript);
 		if (QuoddyUserEmulator.DEBUG) {
 			System.out.println("User "+user+" Logout process finished");
 			System.out.println("Time to process:"+(System.currentTimeMillis()-time));
@@ -141,8 +141,8 @@ public class Transitions {
 		String url=	QuoddyUserEmulator.baseUrl +QuoddyUserEmulator.appname+ "/status/listUpdates";
 		time = System.currentTimeMillis();
 		driver.navigate().to(url);
-		if (QuoddyUserEmulator.getImages)
-			downloadImages(driver);
+		if (QuoddyUserEmulator.getResources)
+			downloadAllPageResources(driver,QuoddyUserEmulator.getImages,QuoddyUserEmulator.getCss,QuoddyUserEmulator.getJavascript);
 		if (QuoddyUserEmulator.DEBUG){
 			System.out.println("User "+user+" List updates process finished");
 			System.out.println("Time to process:"+(System.currentTimeMillis()-time));	
@@ -173,8 +173,8 @@ public class Transitions {
 		long time;
 		time = System.currentTimeMillis();
 		driver.navigate().to(QuoddyUserEmulator.baseUrl + "/quoddy/user/list");
-		if (QuoddyUserEmulator.getImages)
-			downloadImages(driver);
+		if (QuoddyUserEmulator.getResources)
+			downloadAllPageResources(driver,QuoddyUserEmulator.getImages,QuoddyUserEmulator.getCss,QuoddyUserEmulator.getJavascript);
 		if (QuoddyUserEmulator.DEBUG) 
 			System.out.println("User "+user+" List all users process finished");
 		return time;
@@ -186,26 +186,26 @@ public class Transitions {
 	 * @throws IOException 
 	 */
 	public long doListAllMyFriends(WebDriver driver) throws IOException {
-//		long time;// = System.currentTimeMillis();
-//		//String link = QuoddyUserEmulator.baseUrl +QuoddyUserEmulator.appname+ "/user/listFriends";
-//		//driver.get(link);
-//		WebElement el = driver.findElement(By.partialLinkText("listFriends"));
-//		time = System.currentTimeMillis();
-//		el.click();
-//		if (QuoddyUserEmulator.getImages)
-//			downloadImages(driver);
-//		if (QuoddyUserEmulator.DEBUG){
-//			System.out.println("User "+user+" List all my friends process finished");
-//			//		System.out.println(driver.getPageSource());
-//			System.out.println("Time to process:"+(System.currentTimeMillis()-time));
-//		}
-//		return time;
+		//		long time;// = System.currentTimeMillis();
+		//		//String link = QuoddyUserEmulator.baseUrl +QuoddyUserEmulator.appname+ "/user/listFriends";
+		//		//driver.get(link);
+		//		WebElement el = driver.findElement(By.partialLinkText("listFriends"));
+		//		time = System.currentTimeMillis();
+		//		el.click();
+		//		if (QuoddyUserEmulator.getImages)
+		//			downloadImages(driver);
+		//		if (QuoddyUserEmulator.DEBUG){
+		//			System.out.println("User "+user+" List all my friends process finished");
+		//			//		System.out.println(driver.getPageSource());
+		//			System.out.println("Time to process:"+(System.currentTimeMillis()-time));
+		//		}
+		//		return time;
 		long time;
 		time = System.currentTimeMillis();
 		String url = QuoddyUserEmulator.baseUrl +QuoddyUserEmulator.appname+ "/user/listFriends";
 		driver.navigate().to(url);
-		if (QuoddyUserEmulator.getImages)
-			downloadImages(driver);
+		if (QuoddyUserEmulator.getResources)
+			downloadAllPageResources(driver,QuoddyUserEmulator.getImages,QuoddyUserEmulator.getCss,QuoddyUserEmulator.getJavascript);
 		if (QuoddyUserEmulator.DEBUG) 
 			System.out.println("User "+user+" List all users process finished");
 		return time;
@@ -217,29 +217,29 @@ public class Transitions {
 	 * @throws IOException 
 	 */
 	public long doListAllMyFollowers(WebDriver driver) throws IOException {
-//		long time;// = System.currentTimeMillis();
-//		WebElement el = driver.findElement(By.partialLinkText("listFollowers"));
-//		String link= el.getText();//QuoddyUserEmulator.baseUrl +QuoddyUserEmulator.appname+ "/user/listFollowers";
-//
-//		time = System.currentTimeMillis();
-//		el.click();
-//		if (QuoddyUserEmulator.getImages)
-//			downloadImages(driver);
-//		//driver.get(link);
-//		if (QuoddyUserEmulator.DEBUG){
-//			System.out.println("User "+user+" List all my followers process finished:"+link);
-//			System.out.println("Time to process:"+(System.currentTimeMillis()-time));
-//		}
-//		return time;
+		//		long time;// = System.currentTimeMillis();
+		//		WebElement el = driver.findElement(By.partialLinkText("listFollowers"));
+		//		String link= el.getText();//QuoddyUserEmulator.baseUrl +QuoddyUserEmulator.appname+ "/user/listFollowers";
+		//
+		//		time = System.currentTimeMillis();
+		//		el.click();
+		//		if (QuoddyUserEmulator.getImages)
+		//			downloadImages(driver);
+		//		//driver.get(link);
+		//		if (QuoddyUserEmulator.DEBUG){
+		//			System.out.println("User "+user+" List all my followers process finished:"+link);
+		//			System.out.println("Time to process:"+(System.currentTimeMillis()-time));
+		//		}
+		//		return time;
 		long time;
 		time = System.currentTimeMillis();
 		driver.navigate().to(QuoddyUserEmulator.baseUrl +QuoddyUserEmulator.appname+ "/user/listFollowers");
-		if (QuoddyUserEmulator.getImages)
-			downloadImages(driver);
+		if (QuoddyUserEmulator.getResources)
+			downloadAllPageResources(driver,QuoddyUserEmulator.getImages,QuoddyUserEmulator.getCss,QuoddyUserEmulator.getJavascript);
 		if (QuoddyUserEmulator.DEBUG) 
 			System.out.println("User "+user+" List all users process finished");
 		return time;
-		
+
 	}
 
 	/**
@@ -248,25 +248,25 @@ public class Transitions {
 	 * @throws IOException 
 	 */
 	public long doListUsersIFollow(WebDriver driver) throws IOException {
-//		long time;// = System.currentTimeMillis();
-//		String str=	QuoddyUserEmulator.baseUrl +QuoddyUserEmulator.appname+ "/user/listIFollow";
-//		WebElement el = driver.findElement(By.partialLinkText("listIFollow"));
-//		time = System.currentTimeMillis();
-//		el.click();
-//		if (QuoddyUserEmulator.getImages)
-//			downloadImages(driver);
-//		//driver.get(str);
-//		if (QuoddyUserEmulator.DEBUG){
-//			System.out.println("User "+user+" List people I follow process finished in "+str);
-//			System.out.println("Time to process:"+(System.currentTimeMillis()-time));
-//
-//		}
-//		return time;
+		//		long time;// = System.currentTimeMillis();
+		//		String str=	QuoddyUserEmulator.baseUrl +QuoddyUserEmulator.appname+ "/user/listIFollow";
+		//		WebElement el = driver.findElement(By.partialLinkText("listIFollow"));
+		//		time = System.currentTimeMillis();
+		//		el.click();
+		//		if (QuoddyUserEmulator.getImages)
+		//			downloadImages(driver);
+		//		//driver.get(str);
+		//		if (QuoddyUserEmulator.DEBUG){
+		//			System.out.println("User "+user+" List people I follow process finished in "+str);
+		//			System.out.println("Time to process:"+(System.currentTimeMillis()-time));
+		//
+		//		}
+		//		return time;
 		long time;
 		time = System.currentTimeMillis();
 		driver.navigate().to(QuoddyUserEmulator.baseUrl +QuoddyUserEmulator.appname+ "/user/listIFollow");
-		if (QuoddyUserEmulator.getImages)
-			downloadImages(driver);
+		if (QuoddyUserEmulator.getResources)
+			downloadAllPageResources(driver,QuoddyUserEmulator.getImages,QuoddyUserEmulator.getCss,QuoddyUserEmulator.getJavascript);
 		if (QuoddyUserEmulator.DEBUG) 
 			System.out.println("User "+user+" List all users process finished");
 		return time;
@@ -356,8 +356,8 @@ public class Transitions {
 
 		time = System.currentTimeMillis();
 		driver.navigate().to(QuoddyUserEmulator.baseUrl+ link);
-		if (QuoddyUserEmulator.getImages)
-			downloadImages(driver);
+		if (QuoddyUserEmulator.getResources)
+			downloadAllPageResources(driver,QuoddyUserEmulator.getImages,QuoddyUserEmulator.getCss,QuoddyUserEmulator.getJavascript);
 		if (QuoddyUserEmulator.DEBUG){
 			System.out.println("User " + user + " Let's go see a user. Go to "+ QuoddyUserEmulator.baseUrl + link);
 			System.out.println("Time to process:"+(System.currentTimeMillis()-time));
@@ -375,8 +375,8 @@ public class Transitions {
 		time = System.currentTimeMillis();
 		el.click();
 		// blocking
-		if (QuoddyUserEmulator.getImages)
-			downloadImages(driver);
+		if (QuoddyUserEmulator.getResources)
+			downloadAllPageResources(driver,QuoddyUserEmulator.getImages,QuoddyUserEmulator.getCss,QuoddyUserEmulator.getJavascript);
 		System.out.println("User "+user+" update process finished:");
 		return time;
 	}
@@ -445,8 +445,8 @@ public class Transitions {
 		link = QuoddyUserEmulator.baseUrl+e[0];// there's only one friend to add
 		time = System.currentTimeMillis();
 		driver.navigate().to(link);
-		if (QuoddyUserEmulator.getImages)
-			downloadImages(driver);
+		if (QuoddyUserEmulator.getResources)
+			downloadAllPageResources(driver,QuoddyUserEmulator.getImages,QuoddyUserEmulator.getCss,QuoddyUserEmulator.getJavascript);
 		if (QuoddyUserEmulator.DEBUG){
 			System.out.println("User "+user+" Let's add a new user. Go to "+link);
 		}
@@ -509,8 +509,8 @@ public class Transitions {
 		link = QuoddyUserEmulator.baseUrl+e[0];//only one user
 		time = System.currentTimeMillis();
 		driver.navigate().to(link);
-		if (QuoddyUserEmulator.getImages)
-			downloadImages(driver);
+		if (QuoddyUserEmulator.getResources)
+			downloadAllPageResources(driver,QuoddyUserEmulator.getImages,QuoddyUserEmulator.getCss,QuoddyUserEmulator.getJavascript);
 		if (QuoddyUserEmulator.DEBUG){
 			System.out.println("User "+user+" Let's add a new user. Go to " + link);
 		}
@@ -523,8 +523,8 @@ public class Transitions {
 		String link=QuoddyUserEmulator.baseUrl+ QuoddyUserEmulator.appname+"/user/listOpenFriendRequests";
 		time = System.currentTimeMillis();
 		driver.navigate().to(link);
-		if (QuoddyUserEmulator.getImages)
-			downloadImages(driver);
+		if (QuoddyUserEmulator.getResources)
+			downloadAllPageResources(driver,QuoddyUserEmulator.getImages,QuoddyUserEmulator.getCss,QuoddyUserEmulator.getJavascript);
 		if (QuoddyUserEmulator.DEBUG) {
 			System.out.println("User "+user+" Let's see pending requests. Go to " +link);
 
@@ -592,8 +592,8 @@ public class Transitions {
 		// confirm the user
 		time = System.currentTimeMillis();
 		driver.navigate().to(link);
-		if (QuoddyUserEmulator.getImages)
-			downloadImages(driver);
+		if (QuoddyUserEmulator.getResources)
+			downloadAllPageResources(driver,QuoddyUserEmulator.getImages,QuoddyUserEmulator.getCss,QuoddyUserEmulator.getJavascript);
 		if (QuoddyUserEmulator.DEBUG){
 			System.out.println("User "+user+" Let's confirm the user. Go to " + link);
 			//System.out.println("Time to process:"+(System.currentTimeMillis()-time));
@@ -608,8 +608,8 @@ public class Transitions {
 		String link=QuoddyUserEmulator.baseUrl +QuoddyUserEmulator.appname+ "/";
 		time = System.currentTimeMillis();
 		driver.navigate().to(link);
-		if (QuoddyUserEmulator.getImages)
-			downloadImages(driver);
+		if (QuoddyUserEmulator.getResources)
+			downloadAllPageResources(driver,QuoddyUserEmulator.getImages,QuoddyUserEmulator.getCss,QuoddyUserEmulator.getJavascript);
 		if (QuoddyUserEmulator.DEBUG){
 			System.out.println("User "+user+" Let's confirm the user. Go to " + link);
 		}
@@ -701,6 +701,79 @@ public class Transitions {
 		}
 		return 0;
 	}
+	public int downloadAllPageResources(WebDriver driver, boolean images, boolean css, boolean javascript) throws IOException {
+		ArrayList<String> resources = new ArrayList<String>();
+		String pagesource = driver.getPageSource();
+		//System.out.println(pagesource);
+		String strtmp;
+		byte[] buffer = new byte[4096];
+		URL resourceURL = null;
+		String str = "";
+		InputStream resourceStream;
+		BufferedInputStream inResource;
+
+		if(images){// Look for any image to download
+			strtmp = "<img src=\"";
+			int indexresource = pagesource.indexOf(strtmp);
+			while (indexresource != -1) {
+				int startQuote = indexresource + strtmp.length(); 
+				int endQuote = pagesource.indexOf("\"", startQuote + 1);
+				//System.out.println("download this:"	+ pagesource.substring(startQuote, endQuote));
+				resources.add(pagesource.substring(startQuote, endQuote));
+				indexresource = pagesource.indexOf(strtmp, endQuote);
+			}
+			strtmp = "<img style=\"float:left;\" src=\"";
+			indexresource = pagesource.indexOf(strtmp);
+			while (indexresource != -1) {
+				int startQuote = indexresource + strtmp.length(); 
+				int endQuote = pagesource.indexOf("\"", startQuote + 1);
+				resources.add(pagesource.substring(startQuote, endQuote));
+				indexresource = pagesource.indexOf(strtmp, endQuote);
+			}
+		}
+		if(css){// Look for any css to download
+			strtmp = "<link rel=\"stylesheet\" type=\"text/css\" href=\"";
+			int indeximages = pagesource.indexOf(strtmp);
+			while (indeximages != -1) {
+				int startQuote = indeximages + strtmp.length(); 
+				int endQuote = pagesource.indexOf("\"", startQuote + 1);
+				//System.out.println("download this:"	+ pagesource.substring(startQuote, endQuote));
+				resources.add(pagesource.substring(startQuote, endQuote));
+				indeximages = pagesource.indexOf(strtmp, endQuote);
+			}
+		}//download css
+		if(javascript){// Look for any javascript to download
+			strtmp = "<script type=\"text/javascript\" src=\"";
+			int indeximages = pagesource.indexOf(strtmp);
+			while (indeximages != -1) {
+				int startQuote = indeximages + strtmp.length(); 
+				int endQuote = pagesource.indexOf("\"", startQuote + 1);
+				//System.out.println("download this:"	+ pagesource.substring(startQuote, endQuote));
+				resources.add(pagesource.substring(startQuote, endQuote));
+				indeximages = pagesource.indexOf(strtmp, endQuote);
+			}
+		}//download javascript
+
+
+		//let's start downloading the page resources
+		for (int i = 0; i < resources.size(); i++) {
+			str = QuoddyUserEmulator.baseUrl + resources.get(i);
+			//System.out.println("Downloading item:"+str);
+			try {
+				resourceURL = new URL(str);
+				resourceStream = resourceURL.openStream();
+				inResource = new BufferedInputStream(resourceStream, 4096);
+				while (inResource.read(buffer, 0, buffer.length) != -1)
+					; // Just download, skip data
+				inResource.close();
+				resourceStream.close();
+			} catch (IOException ioe) {
+				System.err.println("Error while downloading resource " + resourceURL+ " (" + ioe.getMessage() + ")");
+			}
+		}
+		return 0;
+	}
+
 	public String getRandomStatusString() {
 		return "Hello quoddy this is my test!!!!";
 	}

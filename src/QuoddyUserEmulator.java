@@ -30,7 +30,10 @@ public class QuoddyUserEmulator {
 	public static final boolean DEBUG2 = true;
 	public static int dcId = 0;
 	public static int userId = 0;
-	public static boolean getImages = true;
+	public static final boolean getResources = true; //disable all resources download
+	public static final boolean getImages = true; //fine grained resource download
+	public static final boolean getCss = true;
+	public static final boolean getJavascript = true;
 
 	public static void main(String[] args) {
 		 if (args.length != 7) {
