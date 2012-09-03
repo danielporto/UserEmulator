@@ -30,7 +30,7 @@ public class QuoddyUserEmulator {
 	public static final boolean DEBUG2 = false;
 	public static int dcId = 0;
 	public static int userId = 0;
-	public static boolean getResources = true; //disable all resources download
+	public static boolean getResources = false; //disable all resources download
 	public static final boolean getImages = true; //fine grained resource download
 	public static final boolean getCss = true;
 	public static final boolean getJavascript = true;
