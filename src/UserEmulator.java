@@ -10,7 +10,7 @@ import javax.xml.stream.events.StartDocument;
 
 import org.xml.sax.SAXException;
 
-public class QuoddyUserEmulator {
+public class UserEmulator {
 	public static String baseUrl = "http://localhost:8080";
 	public static String appname = "/quoddy";// "/rubis_servlets";//"/quoddy2-0.1";//
 	// "http://swsao5001.mpi-sws.org:8080/quoddy2-0.1");

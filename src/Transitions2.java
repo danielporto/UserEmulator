@@ -45,12 +45,12 @@ public class Transitions2 {
 
 	public long doTest(WebConversation driver) throws IOException, SAXException {
 		long time;
-		String url = QuoddyUserEmulator.baseUrl+QuoddyUserEmulator.appname;
+		String url = UserEmulator.baseUrl+UserEmulator.appname;
 		//System.out.println("URL:" + url);
 		time = System.currentTimeMillis();
 		WebResponse resp = driver.getResponse(url);
 		time = System.currentTimeMillis() - time;
-		if (QuoddyUserEmulator.getImages)	downloadImages(driver);
+		if (UserEmulator.getImages)	downloadImages(driver);
 		System.out.println("User " + user + " Test process finished Latency:" + time);
 		//System.out.println(resp.getText());
 		return time;
@@ -59,12 +59,12 @@ public class Transitions2 {
 	public long doLogin(WebConversation driver) throws IOException,
 			SAXException {
 		long time = System.currentTimeMillis();// goHome(driver);
-		String url = QuoddyUserEmulator.baseUrl + QuoddyUserEmulator.appname
+		String url = UserEmulator.baseUrl + UserEmulator.appname
 				+ "/login/login?username=" + user + "&password="
-				+ QuoddyUserEmulator.userPassword;
+				+ UserEmulator.userPassword;
 		System.out.println("URL:" + url);
 		WebResponse resp = driver.getResponse(url);
-		if (QuoddyUserEmulator.getImages)
+		if (UserEmulator.getImages)
 			downloadImages(driver);
 		System.out.println("User " + user + " Login process finished:" + url);
 
@@ -78,9 +78,9 @@ public class Transitions2 {
 	public long doLogout(WebConversation driver) throws IOException,
 			SAXException {
 		long time = System.currentTimeMillis();
-		WebResponse resp = driver.getResponse(QuoddyUserEmulator.baseUrl
-				+ QuoddyUserEmulator.appname + "/login/logout");
-		if (QuoddyUserEmulator.getImages)
+		WebResponse resp = driver.getResponse(UserEmulator.baseUrl
+				+ UserEmulator.appname + "/login/logout");
+		if (UserEmulator.getImages)
 			downloadImages(driver);
 		System.out.println("User " + user + " Logout process finished");
 		return time;
@@ -106,11 +106,11 @@ public class Transitions2 {
 	public long doListMyUpdates(WebConversation driver) throws IOException,
 			SAXException {
 		long time = System.currentTimeMillis();
-		WebResponse resp = driver.getResponse(QuoddyUserEmulator.baseUrl
-				+ QuoddyUserEmulator.appname + "/status/listUpdates");
-		if (QuoddyUserEmulator.getImages)
+		WebResponse resp = driver.getResponse(UserEmulator.baseUrl
+				+ UserEmulator.appname + "/status/listUpdates");
+		if (UserEmulator.getImages)
 			downloadImages(driver);
-		if (QuoddyUserEmulator.DEBUG)
+		if (UserEmulator.DEBUG)
 			System.out.println("User " + user
 					+ " List updates process finished");
 		return time;
@@ -119,12 +119,12 @@ public class Transitions2 {
 	public long doListAllUsers(WebConversation driver) throws IOException,
 			SAXException {
 		long time = System.currentTimeMillis();
-		String url = QuoddyUserEmulator.baseUrl + QuoddyUserEmulator.appname
+		String url = UserEmulator.baseUrl + UserEmulator.appname
 				+ "/user/list";
 		WebResponse resp = driver.getResponse(url);
-		if (QuoddyUserEmulator.getImages)
+		if (UserEmulator.getImages)
 			downloadImages(driver);
-		if (QuoddyUserEmulator.DEBUG)
+		if (UserEmulator.DEBUG)
 			System.out.println("User " + user
 					+ " List all users process finished url:" + url);
 		// System.out.println(resp.getText());
@@ -134,11 +134,11 @@ public class Transitions2 {
 	public long doListAllMyFriends(WebConversation driver) throws IOException,
 			SAXException {
 		long time = System.currentTimeMillis();
-		WebResponse resp = driver.getResponse(QuoddyUserEmulator.baseUrl
-				+ QuoddyUserEmulator.appname + "/user/listFriends");
-		if (QuoddyUserEmulator.getImages)
+		WebResponse resp = driver.getResponse(UserEmulator.baseUrl
+				+ UserEmulator.appname + "/user/listFriends");
+		if (UserEmulator.getImages)
 			downloadImages(driver);
-		if (QuoddyUserEmulator.DEBUG)
+		if (UserEmulator.DEBUG)
 			System.out.println("User " + user
 					+ " List all my friends process finished");
 		return time;
@@ -147,11 +147,11 @@ public class Transitions2 {
 	public long doListAllMyFollowers(WebConversation driver)
 			throws IOException, SAXException {
 		long time = System.currentTimeMillis();
-		WebResponse resp = driver.getResponse(QuoddyUserEmulator.baseUrl
-				+ QuoddyUserEmulator.appname + "/user/listFollowers");
-		if (QuoddyUserEmulator.getImages)
+		WebResponse resp = driver.getResponse(UserEmulator.baseUrl
+				+ UserEmulator.appname + "/user/listFollowers");
+		if (UserEmulator.getImages)
 			downloadImages(driver);
-		if (QuoddyUserEmulator.DEBUG)
+		if (UserEmulator.DEBUG)
 			System.out.println("User " + user
 					+ " List all my followers process finished");
 		return time;
@@ -160,11 +160,11 @@ public class Transitions2 {
 	public long doListUsersIFollow(WebConversation driver) throws IOException,
 			SAXException {
 		long time = System.currentTimeMillis();
-		WebResponse resp = driver.getResponse(QuoddyUserEmulator.baseUrl
-				+ QuoddyUserEmulator.appname + "/user/listIFollow");
-		if (QuoddyUserEmulator.getImages)
+		WebResponse resp = driver.getResponse(UserEmulator.baseUrl
+				+ UserEmulator.appname + "/user/listIFollow");
+		if (UserEmulator.getImages)
 			downloadImages(driver);
-		if (QuoddyUserEmulator.DEBUG)
+		if (UserEmulator.DEBUG)
 			System.out.println("User " + user
 					+ " List people I follow process finished");
 		return time;
@@ -200,13 +200,13 @@ public class Transitions2 {
 		link = e[(number.nextInt(e.length))];
 
 		// from followers list
-		if (QuoddyUserEmulator.DEBUG)
+		if (UserEmulator.DEBUG)
 			System.out.println("User " + user + " Let's go see a user. Go to "
-					+ QuoddyUserEmulator.baseUrl + link.getURLString());
+					+ UserEmulator.baseUrl + link.getURLString());
 		time = System.currentTimeMillis();
-		WebResponse resp = driver.getResponse(QuoddyUserEmulator.baseUrl
+		WebResponse resp = driver.getResponse(UserEmulator.baseUrl
 				+ link.getURLString());
-		if (QuoddyUserEmulator.getImages)
+		if (UserEmulator.getImages)
 			downloadImages(driver);
 		// System.out.println(driver.getCurrentPage().getText());
 		return time;
@@ -216,10 +216,10 @@ public class Transitions2 {
 			SAXException {
 		long time = System.currentTimeMillis();
 		// generate string update test here
-		WebResponse resp = driver.getResponse(QuoddyUserEmulator.baseUrl
-				+ QuoddyUserEmulator.appname
+		WebResponse resp = driver.getResponse(UserEmulator.baseUrl
+				+ UserEmulator.appname
 				+ "/status/updateStatus?statusText=" + getRandomStatusString());
-		if (QuoddyUserEmulator.getImages)
+		if (UserEmulator.getImages)
 			downloadImages(driver);
 		System.out.println("User " + user + " update process finished");
 		return time;
@@ -230,7 +230,7 @@ public class Transitions2 {
 		long time;
 		WebResponse page = driver.getCurrentPage(); // read current page
 		WebLink[] e;
-		WebLink link;// QuoddyUserEmulator.baseUrl+
+		WebLink link;// UserEmulator.baseUrl+
 						// "/quoddy/user/addToFollow?userId=testuser7
 
 		// read current page
@@ -243,14 +243,14 @@ public class Transitions2 {
 
 		link = e[(number.nextInt(e.length))];
 
-		if (QuoddyUserEmulator.DEBUG)
+		if (UserEmulator.DEBUG)
 			System.out.println("User " + user + " Let's go see a user. Go to "
-					+ QuoddyUserEmulator.baseUrl + link.getURLString());
+					+ UserEmulator.baseUrl + link.getURLString());
 
 		time = System.currentTimeMillis();
-		WebResponse resp = driver.getResponse(QuoddyUserEmulator.baseUrl
+		WebResponse resp = driver.getResponse(UserEmulator.baseUrl
 				+ link.getURLString());
-		if (QuoddyUserEmulator.getImages)
+		if (UserEmulator.getImages)
 			downloadImages(driver);
 		return time;
 	}
@@ -263,7 +263,7 @@ public class Transitions2 {
 		long time;
 		WebResponse page = driver.getCurrentPage(); // read current page
 		WebLink[] e;
-		WebLink link; // QuoddyUserEmulator.baseUrl+
+		WebLink link; // UserEmulator.baseUrl+
 						// "/quoddy/user/addToFriends?userId=testuser7"
 
 		e = page.getMatchingLinks(WebLink.MATCH_URL_STRING, "addToFriends");
@@ -273,13 +273,13 @@ public class Transitions2 {
 			throw new ItemNotFoundException();
 		}
 		link = e[(number.nextInt(e.length))];
-		if (QuoddyUserEmulator.DEBUG)
+		if (UserEmulator.DEBUG)
 			System.out.println("User " + user + " Let's go see a user. Go to "
-					+ QuoddyUserEmulator.baseUrl + link.getURLString());
+					+ UserEmulator.baseUrl + link.getURLString());
 		time = System.currentTimeMillis();
-		WebResponse resp = driver.getResponse(QuoddyUserEmulator.baseUrl
+		WebResponse resp = driver.getResponse(UserEmulator.baseUrl
 				+ link.getURLString());
-		if (QuoddyUserEmulator.getImages)
+		if (UserEmulator.getImages)
 			downloadImages(driver);
 		return time;
 	}
@@ -289,9 +289,9 @@ public class Transitions2 {
 		long time;
 		// go to pending requests page
 		time = System.currentTimeMillis();
-		WebResponse resp = driver.getResponse(QuoddyUserEmulator.baseUrl
-				+ QuoddyUserEmulator.appname + "/user/listOpenFriendRequests");
-		if (QuoddyUserEmulator.getImages)
+		WebResponse resp = driver.getResponse(UserEmulator.baseUrl
+				+ UserEmulator.appname + "/user/listOpenFriendRequests");
+		if (UserEmulator.getImages)
 			downloadImages(driver);
 		return time;
 	}
@@ -317,13 +317,13 @@ public class Transitions2 {
 
 		link = e[(number.nextInt(e.length))];
 		// from followers list
-		if (QuoddyUserEmulator.DEBUG)
+		if (UserEmulator.DEBUG)
 			System.out.println("User " + user + " Let's go see a user. Go to "
-					+ QuoddyUserEmulator.baseUrl + link.getURLString());
+					+ UserEmulator.baseUrl + link.getURLString());
 		time = System.currentTimeMillis();
-		WebResponse resp = driver.getResponse(QuoddyUserEmulator.baseUrl
+		WebResponse resp = driver.getResponse(UserEmulator.baseUrl
 				+ link.getURLString());
-		if (QuoddyUserEmulator.getImages)
+		if (UserEmulator.getImages)
 			downloadImages(driver);
 		return time;
 	}
@@ -333,9 +333,9 @@ public class Transitions2 {
 	 */
 	public long goHome(WebConversation driver) throws IOException, SAXException {
 		long time = System.currentTimeMillis();
-		WebResponse resp = driver.getResponse(QuoddyUserEmulator.baseUrl
-				+ QuoddyUserEmulator.appname + "/home/index");
-		if (QuoddyUserEmulator.getImages)
+		WebResponse resp = driver.getResponse(UserEmulator.baseUrl
+				+ UserEmulator.appname + "/home/index");
+		if (UserEmulator.getImages)
 			downloadImages(driver);
 		// System.out.println(resp.getText());
 		return time;
@@ -360,7 +360,7 @@ public class Transitions2 {
 		InputStream imageStream;
 		BufferedInputStream inImage;
 		for (int i = 0; i < images.length; i++) {
-			str = QuoddyUserEmulator.baseUrl + images[i].getSource();
+			str = UserEmulator.baseUrl + images[i].getSource();
 			// System.out.println("Downloading item:"+str);
 			try {
 				imageURL = new URL(str);

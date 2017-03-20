@@ -1,9 +1,9 @@
-<project name="quoddyemulator" default="dist" basedir=".">
+<project name="emulator" default="dist" basedir=".">
 	<description>
         simple example build file
     </description>
 	<!-- set global properties for this build -->
-	<property name="outputDir" value="/var/tmp/${user.name}/output/txmud" />
+	<property name="outputDir" value="output" />
 	<property name="build" location="${outputDir}/build" />
 	<property name="dist" location="${outputDir}/dist" />
 	<property name="src" location="src" />
@@ -47,11 +47,11 @@
 		</tstamp>
 
 		<mkdir dir="${dist}/jars" />
-		<jar jarfile="${dist}/jars/quoddy_emulator_lib.jar">
+		<jar jarfile="${dist}/jars/emulator_lib.jar">
 			<manifest>
 				<attribute name="Built-By" value="${user.name}" />
 				<attribute name="Build-Date" value="${current.time}" />
-				<attribute name="Main-Class" value="QuoddyUserEmulator" />
+				<attribute name="Main-Class" value="UserEmulator" />
 			</manifest>
 			<fileset dir="${build}">
 				<include name="**/*.class" />
@@ -63,8 +63,8 @@
 
 	<target name="dist" depends="jars" description="generate the distribution">
 		<mkdir dir="${dist}" />
-		<one-jar destfile="${dist}/quoddy_emulator.jar">
-			<main jar="${dist}/jars/quoddy_emulator_lib.jar" />
+		<one-jar destfile="${dist}/emulator.jar">
+			<main jar="${dist}/jars/emulator_lib.jar" />
 			<lib>
 				<fileset dir="lib">
 					<include name="selenium-server-standalone-2.21.0.jar" />
